@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Balloon {
@@ -15,9 +16,18 @@ public class Balloon {
     private static String greeting = "Hello! I'm BALLOON\nWhat can I do for you?\n";
     private static String exit = "Bye. Hope to see you again soon!\n";
     private static final String HORIZONTAL_LINE = "___________________________________________\n";
+    private static ArrayList<String> tasks = new ArrayList<>(100);
 
     public static String wrapInHorizontalLines(String s) {
         return HORIZONTAL_LINE + s + HORIZONTAL_LINE;
+    }
+
+    public static void printTasks() {
+        System.out.println(HORIZONTAL_LINE);
+        for (int i = 1; i <= tasks.size(); i++) {
+            System.out.println(String.format("%d. %s", i, tasks.get(i - 1)));
+        }
+        System.out.println(HORIZONTAL_LINE);
     }
 
     public static void main(String[] args) {
@@ -35,7 +45,13 @@ public class Balloon {
                 System.out.println(wrapInHorizontalLines(exit));
                 break;
             }
-            System.out.println(wrapInHorizontalLines(command + "\n")); // echoes the command
+
+            if (command.equalsIgnoreCase("list")) { // print all tasks
+                printTasks();
+            } else { // just add input task
+                tasks.add(command);
+                System.out.println(wrapInHorizontalLines("added: " + command + "\n"));
+            }
         }
         sc.close();
     }
