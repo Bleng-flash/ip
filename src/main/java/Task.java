@@ -1,15 +1,15 @@
 public class Task {
-    private String name;
+    private String description;
     private boolean doneFlag = false;
 
-    public Task(String name) {
-        this.name = name;
+    public Task(String desc) {
+        this.description = desc;
     }
 
     @Override
     public String toString() {
         String doneIndicator = doneFlag ? "[X] " : "[ ] ";
-        return doneIndicator + name;
+        return doneIndicator + description;
     }
 
     public void markAsDone() {

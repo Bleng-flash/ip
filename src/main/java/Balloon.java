@@ -40,6 +40,7 @@ public class Balloon {
         System.out.println(wrapInHorizontalLines("Nice! I've marked this task as done:\n" +
                 task + "\n"));
     }
+
     public static void unmarkTask(int index) {
         if (index < 0 || index >= tasks.size()) {
             System.out.println(wrapInHorizontalLines("Task number given does not exist\n"));
