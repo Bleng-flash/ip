@@ -31,7 +31,7 @@ public class Balloon {
     }
 
     public static void markTask(int index) {
-        if (index >= tasks.size()) {
+        if (index < 0 || index >= tasks.size()) {
             System.out.println(wrapInHorizontalLines("Task number given does not exist\n"));
             return;
         }
@@ -41,7 +41,7 @@ public class Balloon {
                 task + "\n"));
     }
     public static void unmarkTask(int index) {
-        if (index >= tasks.size()) {
+        if (index < 0 || index >= tasks.size()) {
             System.out.println(wrapInHorizontalLines("Task number given does not exist\n"));
             return;
         }
@@ -76,7 +76,7 @@ public class Balloon {
             if (parts.length == 2 && parts[0].equals("mark")) {
                 int taskNumber = Integer.parseInt(parts[1]);
                 markTask(taskNumber - 1); // -1 to account for 0-based indexing
-            } else if (command.startsWith("unmark")) {
+            } else if (parts.length == 2 && parts[0].equals("unmark")) {
                 int taskNumber = Integer.parseInt(parts[1]);
                 unmarkTask(taskNumber - 1);
             } else { // just add input task
