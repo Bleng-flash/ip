@@ -2,16 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Balloon {
-    /*
-    public static void main(String[] args) {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-    }
-     */
 
     // System.out.print prints the string exactly as it is given
     // System.out.println prints the string + "\n" (adds a newline at the end)
