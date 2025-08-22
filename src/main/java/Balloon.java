@@ -13,17 +13,20 @@ public class Balloon {
     }
      */
 
-    private static String greeting = "Hello! I'm BALLOON\nWhat can I do for you?\n";
-    private static String exit = "Bye. Hope to see you again soon!\n";
-    private static final String HORIZONTAL_LINE = "___________________________________________\n";
+    // System.out.print prints the string exactly as it is given
+    // System.out.println prints the string + "\n" (adds a newline at the end)
+
+    private static String greeting = "Hello! I'm BALLOON\nWhat can I do for you?";
+    private static String exit = "Bye. Hope to see you again soon!";
+    private static final String HORIZONTAL_LINE = "___________________________________________";
     private static ArrayList<Task> tasks = new ArrayList<>(100);
 
     public static String wrapInHorizontalLines(String s) {
-        return HORIZONTAL_LINE + s + HORIZONTAL_LINE;
+        return HORIZONTAL_LINE + "\n" + s + "\n" + HORIZONTAL_LINE;
     }
 
     public static void printTasks() {
-        System.out.print(HORIZONTAL_LINE);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Here are the tasks in your list:");
         for (int i = 1; i <= tasks.size(); i++) {
             System.out.println(String.format("%d.%s", i, tasks.get(i - 1)));
@@ -33,29 +36,29 @@ public class Balloon {
 
     public static void markTask(int index) {
         if (index < 0 || index >= tasks.size()) {
-            System.out.println(wrapInHorizontalLines("Task number given does not exist\n"));
+            System.out.println(wrapInHorizontalLines("Task number given does not exist"));
             return;
         }
         Task task = tasks.get(index);
         task.markAsDone();
         System.out.println(wrapInHorizontalLines("Nice! I've marked this task as done:\n\t" +
-                task + "\n"));
+                task));
     }
 
     public static void unmarkTask(int index) {
         if (index < 0 || index >= tasks.size()) {
-            System.out.println(wrapInHorizontalLines("Task number given does not exist\n"));
+            System.out.println(wrapInHorizontalLines("Task number given does not exist"));
             return;
         }
         Task task = tasks.get(index);
         task.unmark();
         System.out.println(wrapInHorizontalLines("OK, I've marked this task as not done yet:\n\t" +
-                task + "\n"));
+                task));
     }
 
     public static void addTask(Task task) {
         tasks.add(task);
-        System.out.print(HORIZONTAL_LINE);
+        System.out.println(HORIZONTAL_LINE);
         System.out.println("Got it. I've added this task:");
         System.out.println("\t" + task);
         System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -64,11 +67,14 @@ public class Balloon {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // allows user to enter input via keyboard
+
+        // Greet user at the start
         System.out.println(wrapInHorizontalLines(greeting));
 
         // If the scanner's input source is System.in (console input),
         // hasNextLine() will block and wait for user input if no input is currently available.
         // It will return true once the user provides input and presses Enter.
+
         while (true) {
             if (!sc.hasNextLine()) break;
             String command = sc.nextLine().trim(); // removes leading and trailing spaces
@@ -97,7 +103,7 @@ public class Balloon {
                     String by = parts[1];
                     addTask(new Deadline(description, by));
                 } else {
-                    System.out.println(wrapInHorizontalLines("Invalid deadline command. Missing ' /by '.\n"));
+                    System.out.println(wrapInHorizontalLines("Invalid deadline command. Missing ' /by '."));
                 }
                 continue;
             }
@@ -105,11 +111,11 @@ public class Balloon {
             if (command.startsWith("event ")) {
                 int startIndexFrom = command.indexOf(" /from ");
                 int startIndexTo = command.indexOf(" /to ");
+
                 if (startIndexFrom == -1 || startIndexTo == -1) {
-                    System.out.println(wrapInHorizontalLines("Invalid event command. " +
-                            "Missing ' /from ' or ' /to \n"));
+                    System.out.println(wrapInHorizontalLines("Invalid event command. Missing ' /from ' or ' /to"));
                 } else if (startIndexFrom > startIndexTo) {
-                    System.out.println(wrapInHorizontalLines("Invalid order. Use from before to\n"));
+                    System.out.println(wrapInHorizontalLines("Invalid order. Use from before to"));
                 }
                 else {
                     String description = command.substring(6, startIndexFrom);
@@ -128,7 +134,7 @@ public class Balloon {
                 int taskNumber = Integer.parseInt(parts[1]);
                 unmarkTask(taskNumber - 1);
             } else { // just add input task
-                System.out.println(wrapInHorizontalLines("Invalid command provided.\n"));
+                System.out.println(wrapInHorizontalLines("Invalid command provided."));
             }
         }
         sc.close();
