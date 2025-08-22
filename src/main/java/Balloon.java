@@ -23,7 +23,8 @@ public class Balloon {
     }
 
     public static void printTasks() {
-        System.out.println(HORIZONTAL_LINE);
+        System.out.print(HORIZONTAL_LINE);
+        System.out.println("Here are the tasks in your list:");
         for (int i = 1; i <= tasks.size(); i++) {
             System.out.println(String.format("%d.%s", i, tasks.get(i - 1)));
         }
@@ -37,7 +38,7 @@ public class Balloon {
         }
         Task task = tasks.get(index);
         task.markAsDone();
-        System.out.println(wrapInHorizontalLines("Nice! I've marked this task as done:\n" +
+        System.out.println(wrapInHorizontalLines("Nice! I've marked this task as done:\n\t" +
                 task + "\n"));
     }
 
@@ -48,8 +49,17 @@ public class Balloon {
         }
         Task task = tasks.get(index);
         task.unmark();
-        System.out.println(wrapInHorizontalLines("OK, I've marked this task as not done yet:\n" +
+        System.out.println(wrapInHorizontalLines("OK, I've marked this task as not done yet:\n\t" +
                 task + "\n"));
+    }
+
+    public static void addTask(Task task) {
+        tasks.add(task);
+        System.out.print(HORIZONTAL_LINE);
+        System.out.println("Got it. I've added this task:");
+        System.out.println("\t" + task);
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        System.out.println(HORIZONTAL_LINE);
     }
 
     public static void main(String[] args) {
@@ -73,6 +83,43 @@ public class Balloon {
                 continue;
             }
 
+            if (command.startsWith("todo ")) {
+                String taskDescription = command.substring(5);
+                addTask(new Todo(taskDescription));
+                continue;
+            }
+
+            if (command.startsWith("deadline ")) {
+                String rest = command.substring(9);
+                String[] parts = rest.split(" /by ", 2); // max 2 parts split
+                if (parts.length == 2) {
+                    String description = parts[0];
+                    String by = parts[1];
+                    addTask(new Deadline(description, by));
+                } else {
+                    System.out.println(wrapInHorizontalLines("Invalid deadline command. Missing ' /by '.\n"));
+                }
+                continue;
+            }
+
+            if (command.startsWith("event ")) {
+                int startIndexFrom = command.indexOf(" /from ");
+                int startIndexTo = command.indexOf(" /to ");
+                if (startIndexFrom == -1 || startIndexTo == -1) {
+                    System.out.println(wrapInHorizontalLines("Invalid event command. " +
+                            "Missing ' /from ' or ' /to \n"));
+                } else if (startIndexFrom > startIndexTo) {
+                    System.out.println(wrapInHorizontalLines("Invalid order. Use from before to\n"));
+                }
+                else {
+                    String description = command.substring(6, startIndexFrom);
+                    String from = command.substring(startIndexFrom + 7, startIndexTo);
+                    String to = command.substring(startIndexTo + 5);
+                    addTask(new Event(description, from, to));
+                }
+                continue;
+            }
+
             String[] parts = command.split("\\s+"); // split by any amount of consecutive white spaces
             if (parts.length == 2 && parts[0].equals("mark")) {
                 int taskNumber = Integer.parseInt(parts[1]);
@@ -81,8 +128,7 @@ public class Balloon {
                 int taskNumber = Integer.parseInt(parts[1]);
                 unmarkTask(taskNumber - 1);
             } else { // just add input task
-                tasks.add(new Task(command));
-                System.out.println(wrapInHorizontalLines("added: " + command + "\n"));
+                System.out.println(wrapInHorizontalLines("Invalid command provided.\n"));
             }
         }
         sc.close();
