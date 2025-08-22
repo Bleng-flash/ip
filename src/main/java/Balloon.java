@@ -81,97 +81,118 @@ public class Balloon {
 
         while (true) {
             if (!sc.hasNextLine()) break;
-            String command = sc.nextLine().trim(); // removes leading and trailing spaces
 
-            if (command.equals("bye")) {
-                System.out.println(wrapInHorizontalLines(exit));
-                break;
-            }
+            try {
+                String input = sc.nextLine().trim(); // removes leading and trailing spaces
 
-            if (command.equals("list")) { // print all tasks
-                printTasks();
-                continue;
-            }
-
-            if (command.startsWith("todo ")) {
-                String taskDescription = command.substring(5);
-                if (taskDescription.isBlank()) {
-                    // isBlank returns true iff string is empty or only contains whitespaces only
-                    System.out.println(wrapInHorizontalLines("The description of a todo cannot be " +
-                            "blank!"));
-                } else {
-                    addTask(new Todo(taskDescription));
+                if (input.isEmpty()) {
+                    throw new NoCommandException();
                 }
-                continue;
-            }
+                // EXIT
+                if (input.equals("bye")) {
+                    System.out.println(wrapInHorizontalLines(exit));
+                    break;
+                }
 
-            if (command.startsWith("deadline ")) {
-                String rest = command.substring(9);
-                String[] parts = rest.split(" /by ", 2); // max 2 parts split
-                if (parts.length == 2) {
-                    String description = parts[0];
-                    String by = parts[1];
-                    if (description.isBlank() || by.isBlank()) {
-                        System.out.println(wrapInHorizontalLines("The description and the " +
-                                "deadline of a deadline task cannot be blank!"));
+                // LIST TASKS
+                if (input.equals("list")) { // print all tasks
+                    printTasks();
+                    continue;
+                }
+
+                // ADD TASK TODO
+                if (input.startsWith("todo ")) {
+                    String taskDescription = input.substring(5);
+                    if (taskDescription.isBlank()) {
+                        // isBlank returns true iff string is empty or only contains whitespaces only
+                        System.out.println(wrapInHorizontalLines("The description of a todo cannot be " +
+                                "blank!"));
                     } else {
-                        addTask(new Deadline(description, by));
+                        addTask(new Todo(taskDescription));
                     }
-                } else {
-                    System.out.println(wrapInHorizontalLines("Invalid deadline command. " +
-                            "Missing ' /by '"));
+                    continue;
                 }
-                continue;
-            }
 
-            if (command.startsWith("event ")) {
-                int startIndexFrom = command.indexOf(" /from ");
-                int startIndexTo = command.indexOf(" /to ");
-
-                if (startIndexFrom == -1 || startIndexTo == -1) {
-                    System.out.println(wrapInHorizontalLines("Invalid event command. " +
-                            "Missing ' /from ' or ' /to "));
-                } else if (startIndexFrom > startIndexTo) {
-                    System.out.println(wrapInHorizontalLines("Invalid order. " +
-                            "Use '/from' before '/to'"));
-                }
-                else {
-                    String description = command.substring(6, startIndexFrom);
-                    String from = command.substring(startIndexFrom + 7, startIndexTo);
-                    String to = command.substring(startIndexTo + 5);
-                    if (description.isBlank() || from.isBlank() || to.isBlank()) {
-                        System.out.println(wrapInHorizontalLines("The description, from, and to" +
-                                " of an event cannot be blank!"));
+                // ADD TASK DEADLINE
+                if (input.startsWith("deadline ")) {
+                    String rest = input.substring(9);
+                    String[] parts = rest.split(" /by ", 2); // max 2 parts split
+                    if (parts.length == 2) {
+                        String description = parts[0];
+                        String by = parts[1];
+                        if (description.isBlank() || by.isBlank()) {
+                            System.out.println(wrapInHorizontalLines("The description and the " +
+                                    "deadline of a deadline task cannot be blank!"));
+                        } else {
+                            addTask(new Deadline(description, by));
+                        }
                     } else {
-                        addTask(new Event(description, from, to));
+                        System.out.println(wrapInHorizontalLines("Invalid deadline command. " +
+                                "Missing ' /by '"));
                     }
+                    continue;
                 }
-                continue;
+
+                // ADD TASK EVENT
+                if (input.startsWith("event ")) {
+                    int startIndexFrom = input.indexOf(" /from ");
+                    int startIndexTo = input.indexOf(" /to ");
+
+                    if (startIndexFrom == -1 || startIndexTo == -1) {
+                        System.out.println(wrapInHorizontalLines("Invalid event command. " +
+                                "Missing ' /from ' or ' /to "));
+                    } else if (startIndexFrom > startIndexTo) {
+                        System.out.println(wrapInHorizontalLines("Invalid order. " +
+                                "Use '/from' before '/to'"));
+                    } else {
+                        String description = input.substring(6, startIndexFrom);
+                        String from = input.substring(startIndexFrom + 7, startIndexTo);
+                        String to = input.substring(startIndexTo + 5);
+                        if (description.isBlank() || from.isBlank() || to.isBlank()) {
+                            System.out.println(wrapInHorizontalLines("The description, from, and to" +
+                                    " of an event cannot be blank!"));
+                        } else {
+                            addTask(new Event(description, from, to));
+                        }
+                    }
+                    continue;
+                }
+
+                // MARK TASK AS DONE
+                if (input.startsWith("mark ")) {
+                    try {
+                        String taskNumberString = input.substring(5);
+                        int taskNumber = Integer.parseInt(taskNumberString);
+                        markTask(taskNumber - 1); // -1 to account for 0-based indexing
+                    } catch (NumberFormatException e) { // if taskNumberString cannot be converted to int
+                        System.out.println("mark command has to be followed by an integer only");
+                    }
+                    continue;
+                }
+
+                // UNMARK TASK
+                if (input.startsWith("unmark ")) {
+                    try {
+                        String taskNumberString = input.substring(7);
+                        int taskNumber = Integer.parseInt(taskNumberString);
+                        unmarkTask(taskNumber - 1); // -1 to account for 0-based indexing
+                    } catch (NumberFormatException e) { // if taskNumberString cannot be converted to int
+                        System.out.println("unmark command has to be followed by an integer only");
+                    }
+                    continue;
+                }
+
+                // FALLTHROUGH MEANS UNKNOWN COMMAND KEYWORD
+                int indexFirstWhiteSpace = input.indexOf(" ");
+                String firstWord = indexFirstWhiteSpace == -1 ?
+                        input : input.substring(0, indexFirstWhiteSpace);
+                throw new UnknownCommandException(firstWord);
             }
 
-            if (command.startsWith("mark ")) {
-                try {
-                    String taskNumberString = command.substring(5);
-                    int taskNumber = Integer.parseInt(taskNumberString);
-                    markTask(taskNumber - 1); // -1 to account for 0-based indexing
-                } catch (NumberFormatException e) { // if taskNumberString cannot be converted to int
-                    System.out.println("mark command has to be followed by an integer only");
-                }
-                continue;
+            catch (BalloonException e) {
+                printErrorMessage(e);
             }
 
-            if (command.startsWith("unmark ")) {
-                try {
-                    String taskNumberString = command.substring(7);
-                    int taskNumber = Integer.parseInt(taskNumberString);
-                    unmarkTask(taskNumber - 1); // -1 to account for 0-based indexing
-                } catch (NumberFormatException e) { // if taskNumberString cannot be converted to int
-                    System.out.println("unmark command has to be followed by an integer only");
-                }
-                continue;
-            }
-
-            System.out.println(wrapInHorizontalLines("Invalid command provided."));
         }
         sc.close();
     }
