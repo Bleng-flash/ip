@@ -17,7 +17,7 @@ public class Balloon {
     // System.out.println prints the string + "\n" (adds a newline at the end)
 
     public enum Command {
-        EXIT, LIST_TASKS, ADD_TODO, ADD_DEADLINE, ADD_EVENT, MARK_TASK, UNMARK_TASK
+        EXIT, LIST_TASKS, ADD_TODO, ADD_DEADLINE, ADD_EVENT, MARK_TASK, UNMARK_TASK, DELETE_TASK
     }
 
     private static String greeting = "Hello! I'm BALLOON\nWhat can I do for you?";
@@ -69,6 +69,18 @@ public class Balloon {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public static void deleteTask(int index) {
+        if (index < 0 || index >= tasks.size()) {
+            System.out.println(wrapInHorizontalLines("Task number given does not exist"));
+            return;
+        }
+
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("\t" + tasks.remove(index));
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        System.out.println(HORIZONTAL_LINE);
+    }
     public static void printErrorMessage(Exception e) {
         System.out.println(wrapInHorizontalLines(e.toString()));
     }
@@ -104,6 +116,7 @@ public class Balloon {
                     continue;
                 }
 
+                // ALl subsequent commands should take > 1 word
 
                 if (input.equals("todo")) {
                     throw new MissingInformationException(Command.ADD_TODO);
@@ -119,6 +132,9 @@ public class Balloon {
                 }
                 if (input.equals("unmark")) {
                     throw new MissingInformationException(Command.UNMARK_TASK);
+                }
+                if (input.equals("delete")) {
+                    throw new MissingInformationException(Command.DELETE_TASK);
                 }
 
                 // ADD_TODO
@@ -196,7 +212,19 @@ public class Balloon {
                     continue;
                 }
 
-                // FALLTHROUGH MEANS UNKNOWN COMMAND
+                if (input.startsWith("delete ")) {
+                    try {
+                        String taskNumberString = input.substring(7);
+                        int taskNumber = Integer.parseInt(taskNumberString);
+                        deleteTask(taskNumber - 1);
+                    } catch (NumberFormatException e) {
+                        System.out.println(wrapInHorizontalLines("<delete> command has to be " +
+                                "followed by an integer only"));
+                    }
+                    continue;
+                }
+
+                // fallthrough means unknown command
                 throw new UnknownCommandException();
             }
 

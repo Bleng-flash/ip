@@ -24,6 +24,9 @@ public class MissingInformationException extends BalloonException {
         } else if (commandType == Balloon.Command.UNMARK_TASK) {
             commandName = "<unmark>";
             requirement = "be followed by an integer representing a task";
+        } else if (commandType == Balloon.Command.DELETE_TASK) {
+            commandName = "<delete>";
+            requirement = "be followed by an integer representing a task";
         }
     }
 
