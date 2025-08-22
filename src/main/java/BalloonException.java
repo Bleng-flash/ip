@@ -1,0 +1,12 @@
+public class BalloonException extends Exception {
+    private String message;
+
+    public BalloonException(String message) {
+        this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return message;
+    }
+}

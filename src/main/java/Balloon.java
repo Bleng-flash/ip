@@ -91,7 +91,13 @@ public class Balloon {
 
             if (command.startsWith("todo ")) {
                 String taskDescription = command.substring(5);
-                addTask(new Todo(taskDescription));
+                if (taskDescription.isBlank()) {
+                    // isBlank returns true iff string is empty or only contains whitespaces only
+                    System.out.println(wrapInHorizontalLines("The description of a todo cannot be " +
+                            "blank!"));
+                } else {
+                    addTask(new Todo(taskDescription));
+                }
                 continue;
             }
 
@@ -101,9 +107,15 @@ public class Balloon {
                 if (parts.length == 2) {
                     String description = parts[0];
                     String by = parts[1];
-                    addTask(new Deadline(description, by));
+                    if (description.isBlank() || by.isBlank()) {
+                        System.out.println(wrapInHorizontalLines("The description and the " +
+                                "deadline of a deadline task cannot be blank!"));
+                    } else {
+                        addTask(new Deadline(description, by));
+                    }
                 } else {
-                    System.out.println(wrapInHorizontalLines("Invalid deadline command. Missing ' /by '."));
+                    System.out.println(wrapInHorizontalLines("Invalid deadline command. " +
+                            "Missing ' /by '"));
                 }
                 continue;
             }
@@ -113,15 +125,22 @@ public class Balloon {
                 int startIndexTo = command.indexOf(" /to ");
 
                 if (startIndexFrom == -1 || startIndexTo == -1) {
-                    System.out.println(wrapInHorizontalLines("Invalid event command. Missing ' /from ' or ' /to"));
+                    System.out.println(wrapInHorizontalLines("Invalid event command. " +
+                            "Missing ' /from ' or ' /to "));
                 } else if (startIndexFrom > startIndexTo) {
-                    System.out.println(wrapInHorizontalLines("Invalid order. Use from before to"));
+                    System.out.println(wrapInHorizontalLines("Invalid order. " +
+                            "Use '/from' before '/to'"));
                 }
                 else {
                     String description = command.substring(6, startIndexFrom);
                     String from = command.substring(startIndexFrom + 7, startIndexTo);
                     String to = command.substring(startIndexTo + 5);
-                    addTask(new Event(description, from, to));
+                    if (description.isBlank() || from.isBlank() || to.isBlank()) {
+                        System.out.println(wrapInHorizontalLines("The description, from, and to" +
+                                " of an event cannot be blank!"));
+                    } else {
+                        addTask(new Event(description, from, to));
+                    }
                 }
                 continue;
             }
