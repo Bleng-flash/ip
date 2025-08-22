@@ -65,6 +65,10 @@ public class Balloon {
         System.out.println(HORIZONTAL_LINE);
     }
 
+    public static void printErrorMessage(Exception e) {
+        System.out.println(wrapInHorizontalLines(e.toString()));
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in); // allows user to enter input via keyboard
 
@@ -145,16 +149,29 @@ public class Balloon {
                 continue;
             }
 
-            String[] parts = command.split("\\s+"); // split by any amount of consecutive white spaces
-            if (parts.length == 2 && parts[0].equals("mark")) {
-                int taskNumber = Integer.parseInt(parts[1]);
-                markTask(taskNumber - 1); // -1 to account for 0-based indexing
-            } else if (parts.length == 2 && parts[0].equals("unmark")) {
-                int taskNumber = Integer.parseInt(parts[1]);
-                unmarkTask(taskNumber - 1);
-            } else { // just add input task
-                System.out.println(wrapInHorizontalLines("Invalid command provided."));
+            if (command.startsWith("mark ")) {
+                try {
+                    String taskNumberString = command.substring(5);
+                    int taskNumber = Integer.parseInt(taskNumberString);
+                    markTask(taskNumber - 1); // -1 to account for 0-based indexing
+                } catch (NumberFormatException e) { // if taskNumberString cannot be converted to int
+                    System.out.println("mark command has to be followed by an integer only");
+                }
+                continue;
             }
+
+            if (command.startsWith("unmark ")) {
+                try {
+                    String taskNumberString = command.substring(7);
+                    int taskNumber = Integer.parseInt(taskNumberString);
+                    unmarkTask(taskNumber - 1); // -1 to account for 0-based indexing
+                } catch (NumberFormatException e) { // if taskNumberString cannot be converted to int
+                    System.out.println("unmark command has to be followed by an integer only");
+                }
+                continue;
+            }
+
+            System.out.println(wrapInHorizontalLines("Invalid command provided."));
         }
         sc.close();
     }
