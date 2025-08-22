@@ -1,6 +1,8 @@
 public class BalloonException extends Exception {
     private String message;
 
+    public BalloonException() {}
+
     public BalloonException(String message) {
         this.message = message;
     }
