@@ -1,15 +1,15 @@
 package balloon;
 
-import balloon.task.Deadline;
-import balloon.task.Event;
-import balloon.task.Task;
-import balloon.task.Todo;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import balloon.task.Task;
+import balloon.task.Todo;
+import balloon.task.Deadline;
+import balloon.task.Event;
 
 public class Storage {
     private final String filePath;
@@ -79,12 +79,12 @@ public class Storage {
                 break;
             case "DEADLINE":
                 String by = parts[3];
-                task = new Deadline(description, by); // assume string date for now
+                task = new Deadline(description, by);
                 break;
             case "EVENT":
                 String from = parts[3];
                 String to = parts[4];
-                task = new Event(description, from, to); // assume string date for now
+                task = new Event(description, from, to);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown task type in save file: " + type);

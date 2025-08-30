@@ -1,20 +1,25 @@
 package balloon.task;
 
-public class Deadline extends Task {
-    protected String by;
+import balloon.StringDateTime;
 
-    public Deadline(String description, String by) {
+public class Deadline extends Task {
+
+    private StringDateTime by;
+
+    public Deadline(String description, String byInput) {
         super(description);
-        this.by = by;
+        by = new StringDateTime(byInput);
     }
+
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + by.getOutputString() + ")";
     }
 
     @Override
     public String toSaveFormat() {
-        return "DEADLINE | " + getDoneStatusIndicator() + " | " + description + " | " + by;
+        return "DEADLINE | " + getDoneStatusIndicator() + " | " + description +
+                " | " + by.getAsRawString();
     }
 }
