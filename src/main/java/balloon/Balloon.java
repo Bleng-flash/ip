@@ -1,5 +1,19 @@
+package balloon;
+// the source root in Intellij is src/main/java and Java only cares about the path
+// relative to the source root when determining the package
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import balloon.task.Task;
+import balloon.task.Todo;
+import balloon.task.Deadline;
+import balloon.task.Event;
+
+import balloon.exception.BalloonException;
+import balloon.exception.MissingInformationException;
+import balloon.exception.NoCommandException;
+import balloon.exception.UnknownCommandException;
 
 public class Balloon {
 

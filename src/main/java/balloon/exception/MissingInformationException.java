@@ -1,3 +1,7 @@
+package balloon.exception;
+
+import balloon.Balloon;
+
 public class MissingInformationException extends BalloonException {
     private Balloon.Command commandType;
     private String requirement;

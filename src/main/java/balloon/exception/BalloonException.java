@@ -1,3 +1,5 @@
+package balloon.exception;
+
 public class BalloonException extends Exception {
     private String message;
 
