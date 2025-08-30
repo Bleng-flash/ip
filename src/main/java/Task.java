@@ -1,6 +1,7 @@
-public class Task {
-    private String description;
-    private boolean doneFlag = false;
+public abstract class Task {
+
+    protected String description;
+    private boolean isDone = false;
 
     public Task(String desc) {
         this.description = desc;
@@ -8,15 +9,23 @@ public class Task {
 
     @Override
     public String toString() {
-        String doneIndicator = doneFlag ? "[X] " : "[ ] ";
+        String doneIndicator = isDone ? "[X] " : "[ ] ";
         return doneIndicator + description;
     }
 
     public void markAsDone() {
-        doneFlag = true;
+        isDone = true;
     }
 
     public void unmark() {
-        doneFlag = false;
+        isDone = false;
     }
+
+    protected String getDoneStatusIndicator() {
+        return (isDone ? "1" : "0");
+    }
+
+    public abstract String toSaveFormat();
+
+
 }
