@@ -5,6 +5,8 @@ package balloon;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import balloon.exception.StringConversionException;
+import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 import balloon.task.Todo;
 import balloon.task.Deadline;
@@ -20,107 +22,78 @@ public class Balloon {
     // System.out.print prints the string exactly as it is given
     // System.out.println prints the string + "\n" (adds a newline at the end)
 
+    private TaskList tasks;
+    private Ui ui;
+    private Storage storage;
+
     public enum Command {
-        EXIT, LIST_TASKS, ADD_TODO, ADD_DEADLINE, ADD_EVENT, MARK_TASK, UNMARK_TASK, DELETE_TASK
+        EXIT, LIST_TASKS,
+        ADD_TODO, ADD_DEADLINE, ADD_EVENT,
+        MARK_TASK, UNMARK_TASK, DELETE_TASK
     }
 
-    private static String greeting = "Hello! I'm BALLOON\nWhat can I do for you?";
-    private static String exit = "Bye. Hope to see you again soon!";
-    private static final String HORIZONTAL_LINE = "___________________________________________";
-    private static ArrayList<Task> tasks = new ArrayList<>(100);
-
-    public static String wrapInHorizontalLines(String s) {
-        return HORIZONTAL_LINE + "\n" + s + "\n" + HORIZONTAL_LINE;
+    public Balloon(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        tasks = new TaskList(storage.loadSavedTasks());
+//        catch (BalloonException e) {
+//            ui.showLoadingError();
+//            tasks = new TaskList();
+//        }
     }
 
-    public static void printTasks() {
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 1; i <= tasks.size(); i++) {
-            System.out.println(String.format("%d.%s", i, tasks.get(i - 1)));
-        }
-        System.out.println(HORIZONTAL_LINE);
+    public void addTask(Task task) {
+        tasks.addTask(task);
+        ui.showAddTaskMessage(task, tasks.getSize());
     }
 
-    public static void markTask(int index) {
-        if (index < 0 || index >= tasks.size()) {
-            System.out.println(wrapInHorizontalLines("Task number given does not exist"));
-            return;
-        }
-        Task task = tasks.get(index);
-        task.markAsDone();
-        System.out.println(wrapInHorizontalLines("Nice! I've marked this task as done:\n\t" +
-                task));
+    public void deleteTask(int taskNumber) throws TaskNumberException {
+        Task deletedTask = tasks.deleteTask(taskNumber - 1);
+        ui.showDeleteTaskMessage(deletedTask, tasks.getSize());
     }
 
-    public static void unmarkTask(int index) {
-        if (index < 0 || index >= tasks.size()) {
-            System.out.println(wrapInHorizontalLines("Task number given does not exist"));
-            return;
-        }
-        Task task = tasks.get(index);
-        task.unmark();
-        System.out.println(wrapInHorizontalLines("OK, I've marked this task as not done yet:\n\t" +
-                task));
+    public void markTask(int taskNumber) throws TaskNumberException {
+        Task markedTask = tasks.markTask(taskNumber - 1);
+        ui.showMarkTaskMessage(markedTask);
     }
 
-    public static void addTask(Task task) {
-        tasks.add(task);
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Got it. I've added this task:");
-        System.out.println("\t" + task);
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println(HORIZONTAL_LINE);
+    public void unmarkTask(int taskNumber) throws TaskNumberException {
+        Task unmarkedTask = tasks.unmarkTask(taskNumber - 1);
+        ui.showUnmarkTaskMessage(unmarkedTask);
     }
 
-    public static void deleteTask(int index) {
-        if (index < 0 || index >= tasks.size()) {
-            System.out.println(wrapInHorizontalLines("Task number given does not exist"));
-            return;
-        }
-
-        System.out.println(HORIZONTAL_LINE);
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("\t" + tasks.remove(index));
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        System.out.println(HORIZONTAL_LINE);
-    }
-    public static void printErrorMessage(Exception e) {
-        System.out.println(wrapInHorizontalLines(e.toString()));
-    }
 
     public static void main(String[] args) {
+        new Balloon("./data/balloon.txt").run();
+    }
+
+    public void run() {
         Scanner sc = new Scanner(System.in); // allows user to enter input via keyboard
 
         // Greet user at the start
-        System.out.println(wrapInHorizontalLines(greeting));
-
-        // Initialise the storage and load the tasks saved in the disk
-        Storage storage = new Storage("./data/balloon.txt");
-        tasks = storage.loadSavedTasks();
+        ui.showGreetingMessage();
 
         // If the scanner's input source is System.in (console input),
         // hasNextLine() will block and wait for user input if no input is currently available.
         // It will return true once the user provides input and presses Enter.
-
         while (true) {
             if (!sc.hasNextLine()) break;
 
             try {
                 String input = sc.nextLine().trim();
-
                 if (input.isBlank()) {
                     throw new NoCommandException();
                 }
+
                 // EXIT
                 if (input.equals("bye")) {
-                    System.out.println(wrapInHorizontalLines(exit));
+                    ui.showExitMessage();
                     break;
                 }
 
                 // LIST_TASKS
                 if (input.equals("list")) { // print all tasks
-                    printTasks();
+                    ui.printTasks(tasks.getTasks());
                     continue;
                 }
 
@@ -198,11 +171,9 @@ public class Balloon {
                     try {
                         String taskNumberString = input.substring(5);
                         int taskNumber = Integer.parseInt(taskNumberString);
-                        markTask(taskNumber - 1); // -1 to account for 0-based indexing
+                        markTask(taskNumber); // -1 to account for 0-based indexing
                     } catch (NumberFormatException e) {
-                        // if taskNumberString cannot be converted to int
-                        System.out.println(wrapInHorizontalLines("<mark> command has to be followed" +
-                                " by an integer only"));
+                        throw new StringConversionException(Command.MARK_TASK);
                     }
                     continue;
                 }
@@ -212,10 +183,9 @@ public class Balloon {
                     try {
                         String taskNumberString = input.substring(7);
                         int taskNumber = Integer.parseInt(taskNumberString);
-                        unmarkTask(taskNumber - 1);
+                        unmarkTask(taskNumber);
                     } catch (NumberFormatException e) {
-                        System.out.println(wrapInHorizontalLines("<unmark> command has to be " +
-                                "followed by an integer only"));
+                        throw new StringConversionException(Command.UNMARK_TASK);
                     }
                     continue;
                 }
@@ -225,10 +195,9 @@ public class Balloon {
                     try {
                         String taskNumberString = input.substring(7);
                         int taskNumber = Integer.parseInt(taskNumberString);
-                        deleteTask(taskNumber - 1);
+                        deleteTask(taskNumber);
                     } catch (NumberFormatException e) {
-                        System.out.println(wrapInHorizontalLines("<delete> command has to be " +
-                                "followed by an integer only"));
+                        throw new StringConversionException(Command.DELETE_TASK);
                     }
                     continue;
                 }
@@ -237,11 +206,11 @@ public class Balloon {
                 throw new UnknownCommandException();
             }
             catch (BalloonException e) {
-                printErrorMessage(e);
+                ui.showErrorMessage(e);
             }
 
         }
         sc.close();
-        storage.save(tasks); // Save tasks into disk
+        storage.save(tasks.getTasks()); // Save tasks into disk
     }
 }
