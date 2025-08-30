@@ -13,6 +13,6 @@ public class Deadline extends Task {
 
     @Override
     public String toSaveFormat() {
-        return "TODO | " + getDoneStatusIndicator() + " | " + description + " | " + by;
+        return "DEADLINE | " + getDoneStatusIndicator() + " | " + description + " | " + by;
     }
 }

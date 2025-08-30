@@ -81,6 +81,10 @@ public class Balloon {
         // Greet user at the start
         System.out.println(wrapInHorizontalLines(greeting));
 
+        // Initialise the storage and load the tasks saved in the disk
+        Storage storage = new Storage("./data/balloon.txt");
+        tasks = storage.loadSavedTasks();
+
         // If the scanner's input source is System.in (console input),
         // hasNextLine() will block and wait for user input if no input is currently available.
         // It will return true once the user provides input and presses Enter.
@@ -202,6 +206,7 @@ public class Balloon {
                     continue;
                 }
 
+                // DELETE_TASK
                 if (input.startsWith("delete ")) {
                     try {
                         String taskNumberString = input.substring(7);
@@ -217,12 +222,12 @@ public class Balloon {
                 // fallthrough means unknown command
                 throw new UnknownCommandException();
             }
-
             catch (BalloonException e) {
                 printErrorMessage(e);
             }
 
         }
         sc.close();
+        storage.save(tasks); // Save tasks into disk
     }
 }

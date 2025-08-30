@@ -12,11 +12,11 @@ public class Storage {
     }
 
     /**
-     * Loads tasks from the save file.
+     * Loads the saved tasks from the save file.
      * If the file does not exist, returns an empty task list.
      */
-    public ArrayList<Task> load() {
-        ArrayList<Task> tasks = new ArrayList<>();
+    public ArrayList<Task> loadSavedTasks() {
+        ArrayList<Task> tasks = new ArrayList<>(100);
         File file = new File(filePath);
 
         if (!file.exists()) {
@@ -64,27 +64,19 @@ public class Storage {
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
-        String by = null;
-        String from = null;
-        String to = null;
-
-        if (type.equals("DEADLINE")) {
-            by = parts[3];
-        }
-        if (type.equals("EVENT")) {
-            from = parts[3];
-            to = parts[4];
-        }
-
         Task task;
+
         switch (type) {
             case "TODO":
                 task = new Todo(description);
                 break;
             case "DEADLINE":
+                String by = parts[3];
                 task = new Deadline(description, by); // assume string date for now
                 break;
             case "EVENT":
+                String from = parts[3];
+                String to = parts[4];
                 task = new Event(description, from, to); // assume string date for now
                 break;
             default:

@@ -16,7 +16,7 @@ public class Event extends Task {
 
     @Override
     public String toSaveFormat() {
-        return "TODO | " + getDoneStatusIndicator() + " | " + description + " | " +
+        return "EVENT | " + getDoneStatusIndicator() + " | " + description + " | " +
                 from + " | " + to;
     }
 }
