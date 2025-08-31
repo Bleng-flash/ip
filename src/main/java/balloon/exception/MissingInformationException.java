@@ -1,34 +1,34 @@
 package balloon.exception;
 
-import balloon.Balloon.Command;
+import balloon.command.Command.CommandType;
 
 public class MissingInformationException extends BalloonException {
     private String requirement;
     private String commandName;
 
-    public MissingInformationException(Command commandType) {
+    public MissingInformationException(CommandType commandType) {
         switch(commandType) {
-        case ADD_TODO:
+        case TODO:
             commandName = "<todo>";
             requirement = "have a non-empty description";
             break;
-        case ADD_DEADLINE:
+        case DEADLINE:
             commandName = "<deadline>";
             requirement = "have non-empty description and deadline";
             break;
-        case ADD_EVENT:
+        case EVENT:
             commandName = "<event>";
             requirement = "have non-empty description, from and to";
             break;
-        case MARK_TASK:
+        case MARK:
             commandName = "<mark>";
             requirement = "be followed by an integer representing a task";
             break;
-        case UNMARK_TASK:
+        case UNMARK:
             commandName = "<unmark>";
             requirement = "be followed by an integer representing a task";
             break;
-        case DELETE_TASK:
+        case DELETE:
             commandName = "<delete>";
             requirement = "be followed by an integer representing a task";
             break;

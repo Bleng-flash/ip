@@ -34,7 +34,7 @@ public class TaskList {
         return markedTask;
     }
 
-    public Task unmarkTask(int index) throws TaskNumberException{
+    public Task unmarkTask(int index) throws TaskNumberException {
         if (index < 0 || index >= tasks.size()) {
             throw new TaskNumberException();
         }

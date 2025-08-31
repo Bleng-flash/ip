@@ -1,19 +1,19 @@
 package balloon.exception;
 
-import balloon.Balloon.Command;
+import balloon.command.Command.CommandType;
 
 public class StringConversionException extends BalloonException {
-    String commandName;
+    private String commandName;
 
-    public StringConversionException(Command command) {
-        switch(command) {
-        case MARK_TASK:
+    public StringConversionException(CommandType commandType) {
+        switch(commandType) {
+        case MARK:
             commandName = "<mark>";
             break;
-        case UNMARK_TASK:
+        case UNMARK:
             commandName = "<unmark>";
             break;
-        case DELETE_TASK:
+        case DELETE:
             commandName = "<delete";
             break;
         default:

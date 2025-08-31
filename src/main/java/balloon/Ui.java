@@ -1,11 +1,13 @@
 package balloon;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import balloon.task.Task;
 
 public class Ui {
 
+    private Scanner scanner = new Scanner(System.in);
     private static String greeting = "Hello! I'm BALLOON\nWhat can I do for you?";
     private static String exit = "Bye. Hope to see you again soon!";
     private static final String HORIZONTAL_LINE = "___________________________________________";
@@ -14,6 +16,14 @@ public class Ui {
         return HORIZONTAL_LINE + "\n" + s + "\n" + HORIZONTAL_LINE;
     }
 
+
+    public String readCommand() {
+        return scanner.nextLine();
+    }
+
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
 
     public void showGreetingMessage() {
         System.out.println(wrapInHorizontalLines(greeting));
