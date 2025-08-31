@@ -18,6 +18,10 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    public Storage() {
+        filePath = "";
+    }
+
     /**
      * Loads the saved tasks from the save file.
      * If the file does not exist, returns an empty task list.
@@ -66,7 +70,7 @@ public class Storage {
      * Format for DEADLINE: TYPE | STATUS | DESCRIPTION | BY
      * Format for EVENT: TYPE | STATUS | DESCRIPTION | FROM | TO
      */
-    private Task parseLine(String line) {
+    public Task parseLine(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
         boolean isDone = parts[1].equals("1");

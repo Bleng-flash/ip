@@ -22,4 +22,14 @@ public class Deadline extends Task {
         return "DEADLINE | " + getDoneStatusIndicator() + " | " + description +
                 " | " + by.getAsRawString();
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Deadline) {
+            Deadline other = (Deadline) object;
+            return this.description.equals(other.description) &&
+                    this.by.equals(other.by);
+        }
+        return false;
+    }
 }

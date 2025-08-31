@@ -25,4 +25,15 @@ public class Event extends Task {
         return "EVENT | " + getDoneStatusIndicator() + " | " + description + " | " +
                 from.getAsRawString() + " | " + to.getAsRawString();
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object instanceof Event) {
+            Event other = (Event) object;
+            return this.description.equals(other.description) &&
+                    this.from.equals(other.from) &&
+                    this.to.equals(other.to);
+        }
+        return false;
+    }
 }

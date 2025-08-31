@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import balloon.task.Event;
+
 public class StringDateTime {
 
     private enum OutputFormat {
@@ -63,4 +65,11 @@ public class StringDateTime {
         return str;
     }
 
+    public boolean equals(Object object) {
+        if (object instanceof StringDateTime) {
+            StringDateTime other = (StringDateTime) object;
+            return this.getAsRawString().equals(other.getAsRawString());
+        }
+        return false;
+    }
 }
