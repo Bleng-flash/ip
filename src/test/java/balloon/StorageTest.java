@@ -21,4 +21,16 @@ public class StorageTest {
                     e.getMessage());
         }
     }
+
+    @Test
+    public void parseLine_success() {
+        String line = "DEADLINE | 0 | CS2103T iP homework | 2025-09-01 2359";
+        try {
+            Storage storage = new Storage();
+            assertEquals(new Deadline("CS2103T iP homework", "2025-09-01 2359"),
+                    storage.parseLine(line));
+        } catch (IllegalArgumentException e) {
+            fail();
+        }
+    }
 }
