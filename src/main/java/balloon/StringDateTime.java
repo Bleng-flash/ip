@@ -5,7 +5,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import balloon.task.Event;
+/**
+ * Encapsulates a date which can be represented as a String, a LocalDate, or a LocalDateTime.
+ * Objects of this class will be treated as a LocalDate or a LocalDateTime if they can fit their
+ * format; otherwise by default they will be treated as a String.
+ */
 
 public class StringDateTime {
 
