@@ -9,7 +9,7 @@ public interface Command {
     enum CommandType {
         LIST, EXIT,
         TODO, DEADLINE, EVENT,
-        MARK, UNMARK, DELETE
+        MARK, UNMARK, DELETE, FIND
     }
     void execute(TaskList tasks, Ui ui, Storage storage) throws TaskNumberException;
     boolean isExit();

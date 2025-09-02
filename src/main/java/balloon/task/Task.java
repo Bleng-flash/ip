@@ -28,4 +28,11 @@ public abstract class Task {
     }
 
     public abstract String toSaveFormat();
+
+    /**
+     * Returns true if the description of this Task contains word; false otherwise.
+     */
+    public boolean containsWord(String word) {
+        return description.contains(word);
+    }
 }

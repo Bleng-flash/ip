@@ -54,4 +54,20 @@ public class TaskList {
         return tasks.remove(index);
     }
 
+    /**
+     * Retrieves all the tasks in this TaskList whose description contains a certain keyword.
+     *
+     * @param keyword the word we are searching for.
+     * @return a list of tasks that is a subset of all the tasks.
+     */
+    public ArrayList<Task> getTasksWithKeyword(String keyword) {
+        ArrayList<Task> output = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.containsWord(keyword)) {
+                output.add(task);
+            }
+        }
+        return output;
+    }
+
 }
