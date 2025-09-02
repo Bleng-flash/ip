@@ -32,6 +32,9 @@ public class MissingInformationException extends BalloonException {
             commandName = "<delete>";
             requirement = "be followed by an integer representing a task";
             break;
+        case FIND:
+            commandName = "<find>";
+            requirement = "be followed by a String keyword";
         }
     }
 

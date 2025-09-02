@@ -17,8 +17,8 @@ public class UnmarkCommand implements Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskNumberException {
-        Task markedTask = tasks.unmarkTask(taskNumber - 1);
-        ui.showMarkTaskMessage(markedTask);
+        Task unmarkedTask = tasks.unmarkTask(taskNumber - 1);
+        ui.showUnmarkTaskMessage(unmarkedTask);
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface Command {
     enum CommandType {
         LIST, EXIT,
         TODO, DEADLINE, EVENT,
-        MARK, UNMARK, DELETE
+        MARK, UNMARK, DELETE, FIND
     }
 
     /**

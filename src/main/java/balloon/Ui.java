@@ -76,5 +76,14 @@ public class Ui {
                 "OK, I've marked this task as not done yet:\n\t" + unmarkedTask));
     }
 
+    public void showFindMessage(ArrayList<Task> tasksFound) {
+        System.out.println(HORIZONTAL_LINE);
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 1; i <= tasksFound.size(); i++) {
+            System.out.println(String.format("%d.%s", i, tasksFound.get(i - 1)));
+        }
+        System.out.println(HORIZONTAL_LINE);
+    }
+
 
 }

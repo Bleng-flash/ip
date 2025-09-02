@@ -36,4 +36,11 @@ public abstract class Task {
      * @return a line that represents this Task and would be written to the save file.
      */
     public abstract String toSaveFormat();
+
+    /**
+     * Returns true if the description of this Task contains word; false otherwise.
+     */
+    public boolean containsWord(String word) {
+        return description.contains(word);
+    }
 }

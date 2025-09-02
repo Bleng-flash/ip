@@ -4,6 +4,7 @@ import balloon.command.Command;
 import balloon.command.Command.CommandType;
 import balloon.command.DeleteCommand;
 import balloon.command.ExitCommand;
+import balloon.command.FindCommand;
 import balloon.command.ListCommand;
 import balloon.command.MarkCommand;
 import balloon.command.TodoCommand;
@@ -59,6 +60,9 @@ public class Parser {
         }
         if (input.equals("delete")) {
             throw new MissingInformationException(CommandType.DELETE);
+        }
+        if (input.equals("find")) {
+            throw new MissingInformationException(CommandType.FIND);
         }
 
         if (input.startsWith("todo ")) {
@@ -130,6 +134,11 @@ public class Parser {
             } catch (NumberFormatException e) {
                 throw new StringConversionException(CommandType.DELETE);
             }
+        }
+
+        if (input.startsWith("find ")) {
+            String keyword = input.substring(5);
+            return new FindCommand(keyword);
         }
 
         // fallthrough means unknown command
