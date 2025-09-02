@@ -5,6 +5,9 @@ import java.util.Scanner;
 
 import balloon.task.Task;
 
+/**
+ * Provides methods related to UI, mostly displaying the message corresponding to different commands.
+ */
 public class Ui {
 
     private Scanner scanner = new Scanner(System.in);

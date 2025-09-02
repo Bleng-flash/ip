@@ -1,5 +1,9 @@
 package balloon.task;
 
+/**
+ * Represents a task. This is an abstract class.
+ * A task can either be a todo, a deadline or an event.
+ */
 public abstract class Task {
 
     protected String description;
@@ -27,5 +31,9 @@ public abstract class Task {
         return (isDone ? "1" : "0");
     }
 
+    /**
+     *
+     * @return a line that represents this Task and would be written to the save file.
+     */
     public abstract String toSaveFormat();
 }
