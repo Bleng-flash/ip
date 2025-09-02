@@ -32,7 +32,7 @@ public class Storage {
      * Loads the saved tasks from the save file.
      * If the file does not exist, returns an empty task list.
      *
-     * @return a list of tasks represented by the save file
+     * @return a list of tasks represented by the save file.
      */
     public ArrayList<Task> loadSavedTasks() {
         ArrayList<Task> tasks = new ArrayList<>(100);
@@ -83,10 +83,10 @@ public class Storage {
      * <p>
      * Format for EVENT: EVENT | STATUS | DESCRIPTION | FROM | TO
      * <p>
-     * where STATUS is 1 if task is done; otherwise STATUS is 0
+     * where STATUS is 1 if task is done; otherwise STATUS is 0.
      *
-     * @param line a line from the save file
-     * @return a Task object that the line represents
+     * @param line a line from the save file.
+     * @return a Task object that the line represents.
      */
     public Task parseLine(String line) {
         String[] parts = line.split(" \\| ");

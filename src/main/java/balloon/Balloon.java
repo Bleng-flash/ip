@@ -13,8 +13,8 @@ public class Balloon {
     private Storage storage;
 
     /**
-     * Constructor for Balloon
-     * @param filePath a string representing the relative path of the file loaded into storage
+     * Constructor for Balloon.
+     * @param filePath a string representing the relative path of the file loaded into storage.
      */
     public Balloon(String filePath) {
         ui = new Ui();
