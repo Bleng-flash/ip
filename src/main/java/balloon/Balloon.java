@@ -12,6 +12,8 @@ public class Balloon {
     private Ui ui;
     private Storage storage;
 
+    private String commandType;
+
     /**
      * Constructor for Balloon.
      * @param filePath a string representing the relative path of the file loaded into storage.
@@ -44,5 +46,24 @@ public class Balloon {
             }
         }
         storage.save(tasks.getTasks());
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            Command command = Parser.parseUserInput(input);
+            command.execute(tasks, ui, storage);
+            commandType = command.getClass().getSimpleName();
+            return command.getString();
+        } catch (BalloonException e) {
+            commandType = "ExceptionInduced";
+            return "Error: " + e;
+        }
+    }
+
+    public String getCommandType() {
+        return commandType;
     }
 }

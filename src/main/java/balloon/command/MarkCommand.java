@@ -8,6 +8,7 @@ import balloon.task.Task;
 
 public class MarkCommand implements Command {
     private int taskNumber;
+    Task markedTask;
 
     public MarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;
@@ -15,12 +16,17 @@ public class MarkCommand implements Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskNumberException {
-        Task markedTask = tasks.markTask(taskNumber - 1);
-        ui.showMarkTaskMessage(markedTask);
+        markedTask = tasks.markTask(taskNumber - 1);
+        // ui.showMarkTaskMessage(markedTask);
     }
 
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getString() {
+        return "Nice! I've marked this task as done:\n\t" + markedTask;
     }
 }

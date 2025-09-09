@@ -1,17 +1,32 @@
 package balloon.command;
 
+import java.util.ArrayList;
+
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.Ui;
+import balloon.task.Task;
 
 public class ListCommand implements Command {
+    ArrayList<Task> tasks;
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        ui.printTasks(tasks.getTasks());
+        // ui.printTasks(tasks.getTasks());
+        this.tasks = tasks.getTasks();
     }
 
     @Override
     public boolean isExit() {
         return false;
+    }
+
+    @Override
+    public String getString() {
+        String out = "Here are the tasks in your list:";
+        for (int i = 1; i <= tasks.size(); i++) {
+            out += String.format("\n%d.%s", i, tasks.get(i - 1));
+        }
+        return out;
     }
 }
