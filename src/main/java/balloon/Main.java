@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
-    private static final String DEFAULT_FILE_PATH = "duke/example.txt";
+    private static final String DEFAULT_FILE_PATH = "./data/balloon.txt";
 
     private ScrollPane scrollPane;
     private VBox dialogContainer;
@@ -25,6 +25,7 @@ public class Main extends Application {
             new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage =
             new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
+    private Balloon balloon = new Balloon(DEFAULT_FILE_PATH);
 
     // Existing constructor
     public Main(String filePath) {
@@ -103,7 +104,12 @@ public class Main extends Application {
      * the dialog container. Clears the user input after processing.
      */
     private void handleUserInput() {
-        dialogContainer.getChildren().addAll(new DialogBox(userInput.getText(), userImage));
+        String userText = userInput.getText();
+        String dukeText = balloon.getResponse(userInput.getText());
+        dialogContainer.getChildren().addAll(
+                new DialogBox(userText, userImage),
+                new DialogBox(dukeText, dukeImage)
+        );
         userInput.clear();
     }
 }

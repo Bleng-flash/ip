@@ -45,4 +45,11 @@ public class Balloon {
         }
         storage.save(tasks.getTasks());
     }
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        return "Balloon heard: " + input;
+    }
 }
