@@ -32,8 +32,14 @@ public interface Command {
 
 
     /**
-     *
      * @return true if command is Exit; false otherwise.
      */
     boolean isExit();
+
+    /**
+     *
+     * @return the GUI's response to the command passed in by the user
+     */
+    String getString();
+
 }
