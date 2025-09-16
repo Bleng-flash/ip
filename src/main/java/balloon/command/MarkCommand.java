@@ -5,7 +5,7 @@ import balloon.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
-public class MarkCommand implements Command {
+public class MarkCommand extends Command {
     private int taskNumber;
     Task markedTask;
 
@@ -26,5 +26,10 @@ public class MarkCommand implements Command {
     @Override
     public String getString() {
         return "Nice! I've marked this task as done:\n\t" + markedTask;
+    }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + taskNumber;
     }
 }

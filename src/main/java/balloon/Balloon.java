@@ -32,10 +32,11 @@ public class Balloon {
             command.execute(tasks, storage);
             assert command != null : "Parser should never return a null command";
 
-            // Save tasks immediately after each command
-            storage.save(tasks.getTasks());
-
             commandType = command.getClass().getSimpleName();
+
+            // Save tasks immediately after each command
+            storage.save(tasks.getTasks(), command);
+
             return command.getString();
         } catch (BalloonException e) {
             commandType = "ExceptionInduced";

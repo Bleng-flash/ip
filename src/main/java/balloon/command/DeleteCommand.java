@@ -5,7 +5,7 @@ import balloon.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
-public class DeleteCommand implements Command {
+public class DeleteCommand extends Command {
     private int taskNumber;
     private Task deletedTask;
     private int numberOfTasks;
@@ -29,5 +29,10 @@ public class DeleteCommand implements Command {
     public String getString() {
         return "Noted. I've removed this task:\n\t" + deletedTask + "\n" +
                 "Now you have " + numberOfTasks + " tasks in the list.";
+    }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + taskNumber;
     }
 }

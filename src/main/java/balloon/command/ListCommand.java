@@ -6,7 +6,7 @@ import balloon.Storage;
 import balloon.TaskList;
 import balloon.task.Task;
 
-public class ListCommand implements Command {
+public class ListCommand extends Command {
     ArrayList<Task> tasks;
 
     @Override

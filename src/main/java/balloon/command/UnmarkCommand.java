@@ -5,7 +5,7 @@ import balloon.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
-public class UnmarkCommand implements Command {
+public class UnmarkCommand extends Command {
     private int taskNumber;
     private Task unmarkedTask;
 
@@ -26,5 +26,10 @@ public class UnmarkCommand implements Command {
     @Override
     public String getString() {
         return "OK, I've marked this task as not done yet:\n\t" + unmarkedTask;
+    }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + taskNumber;
     }
 }
