@@ -1,11 +1,13 @@
 package balloon;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import balloon.command.Command;
 import balloon.task.Task;
 import balloon.task.Todo;
 import balloon.task.Deadline;
@@ -44,9 +46,13 @@ public class Storage {
         }
 
         try (Scanner sc = new Scanner(file)) {
+            if (sc.hasNextLine()) {
+                sc.nextLine();  // skip the first line (last executed command)
+            }
+
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
-                Task task = parseLine(line);
+                Task task = parseLineForTask(line);
                 tasks.add(task);
             }
         } catch (IOException e) {
@@ -59,15 +65,24 @@ public class Storage {
     }
 
     /**
-     * Saves the list of tasks to the save file.
+     * Saves the last executed command, followed by the list of tasks to the save file.
+     * The lastCommand save format will either be:
+     *  1. NAME | taskNumber     (DeleteCommand, MarkCommand, UnmarkCommand)
+     *      or
+     *  2. NAME                  (for All other commands)
      *
      * @param tasks
+     * @param lastCommand   the last successfully executed command
      */
-    public void save(ArrayList<Task> tasks) {
+    public void save(ArrayList<Task> tasks, Command lastCommand) {
         File file = new File(filePath);
         file.getParentFile().mkdirs(); // Ensure ./data/ directory exists
 
         try (FileWriter fw = new FileWriter(file)) {
+            // Write the last command
+            fw.write(lastCommand.toSaveFormat() + System.lineSeparator());
+
+            // Write the tasks currently in the list
             for (Task t : tasks) {
                 fw.write(t.toSaveFormat() + System.lineSeparator());
             }
@@ -79,7 +94,7 @@ public class Storage {
     }
 
     /**
-     * Converts a line from the save file into a corresponding Task object.
+     * Converts a line representing a task from the save file into a corresponding Task object.
      * <p>
      * Format for TODO: TODO | STATUS | DESCRIPTION
      * <p>
@@ -89,10 +104,10 @@ public class Storage {
      * <p>
      * where STATUS is 1 if task is done; otherwise STATUS is 0.
      *
-     * @param line a line from the save file.
-     * @return a Task object that the line represents.
+     * @param line  a line that represents a task from the save file.
+     * @return      a Task object that the line represents.
      */
-    public Task parseLine(String line) {
+    public Task parseLineForTask(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
@@ -120,5 +135,23 @@ public class Storage {
             task.markAsDone();
         }
         return task;
+    }
+
+    /**
+     *
+     * @return  the first line in the save file, which we assume is last executed command
+     */
+    public String getLastCommand() {
+        try (Scanner sc = new Scanner(new File(filePath))) {
+            if (sc.hasNextLine()) {
+                String firstLine = sc.nextLine();
+                return firstLine;
+            } else {
+                return ""; // occurs when the save fiile is empty
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+            return "";
+        }
     }
 }

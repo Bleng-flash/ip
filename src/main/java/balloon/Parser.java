@@ -10,6 +10,7 @@ import balloon.command.MarkCommand;
 import balloon.command.TodoCommand;
 import balloon.command.DeadlineCommand;
 import balloon.command.EventCommand;
+import balloon.command.UndoCommand;
 import balloon.command.UnmarkCommand;
 import balloon.exception.MissingInformationException;
 import balloon.exception.NoCommandException;
@@ -39,6 +40,9 @@ public class Parser {
 
         if (input.equals("list")) {
             return new ListCommand();
+        }
+        if (input.equals("undo")) {
+            return new UndoCommand();
         }
 
         // ALl subsequent commands should take > 1 word

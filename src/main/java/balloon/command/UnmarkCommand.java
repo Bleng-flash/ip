@@ -27,4 +27,9 @@ public class UnmarkCommand extends Command {
     public String getString() {
         return "OK, I've marked this task as not done yet:\n\t" + unmarkedTask;
     }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + taskNumber;
+    }
 }

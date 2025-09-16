@@ -27,4 +27,9 @@ public class MarkCommand extends Command {
     public String getString() {
         return "Nice! I've marked this task as done:\n\t" + markedTask;
     }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + taskNumber;
+    }
 }

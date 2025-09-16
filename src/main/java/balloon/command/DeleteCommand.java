@@ -30,4 +30,9 @@ public class DeleteCommand extends Command {
         return "Noted. I've removed this task:\n\t" + deletedTask + "\n" +
                 "Now you have " + numberOfTasks + " tasks in the list.";
     }
+
+    @Override
+    public String toSaveFormat() {
+        return super.toSaveFormat() + " | " + taskNumber;
+    }
 }

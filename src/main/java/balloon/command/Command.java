@@ -2,6 +2,8 @@ package balloon.command;
 
 import balloon.Storage;
 import balloon.TaskList;
+import balloon.exception.CommandNotUndoableException;
+import balloon.exception.SaveFileException;
 import balloon.exception.TaskNumberException;
 
 /**
@@ -26,7 +28,8 @@ public abstract class Command {
      * @param storage the storage handler used to load or save tasks.
      * @throws TaskNumberException if the command refers to an invalid task number.
      */
-    public abstract void execute(TaskList tasks, Storage storage) throws TaskNumberException;
+    public abstract void execute(TaskList tasks, Storage storage)
+            throws TaskNumberException, SaveFileException, CommandNotUndoableException;
 
 
     /**
@@ -41,11 +44,16 @@ public abstract class Command {
     public abstract String getString();
 
     /**
+     * The save format will either be:
+     * 1. NAME | taskNumber     (DeleteCommand, MarkCommand, UnmarkCommand)
+     *    or
+     * 2. NAME                  (for All other commands)
+     * where NAME is the class name of the class that the command belongs to
      *
      * @return  the save format as a String of this command
      */
     public String toSaveFormat() {
-
+        return this.getClass().getSimpleName();
     }
 
 }
