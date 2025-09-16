@@ -25,35 +25,12 @@ public class Balloon {
     }
 
     /**
-     * This is the entry point main function into the program.
-     * @param args
-     */
-    public static void main(String[] args) {
-        new Balloon("./data/balloon.txt").run();
-    }
-
-    public void run() {
-        ui.showGreetingMessage();
-        boolean isExit = false;
-        while (!isExit) {
-            try {
-                String fullCommand = ui.readCommand().trim();
-                Command command = Parser.parseUserInput(fullCommand);
-                command.execute(tasks, ui, storage);
-                isExit = command.isExit();
-            } catch (BalloonException e) {
-                ui.showErrorMessage(e);
-            }
-        }
-        storage.save(tasks.getTasks());
-    }
-
-    /**
      * Generates a response for the user's chat message.
      */
     public String getResponse(String input) {
         try {
-            Command command = Parser.parseUserInput(input);
+            String trimmedInput = input.trim();
+            Command command = Parser.parseUserInput(trimmedInput);
             command.execute(tasks, ui, storage);
             commandType = command.getClass().getSimpleName();
             return command.getString();
