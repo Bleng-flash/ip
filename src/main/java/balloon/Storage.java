@@ -53,6 +53,8 @@ public class Storage {
             System.out.println("Error reading file: " + e.getMessage());
         }
 
+        assert tasks != null : "Loaded tasks should not be a null";
+
         return tasks;
     }
 
@@ -69,6 +71,8 @@ public class Storage {
             for (Task t : tasks) {
                 fw.write(t.toSaveFormat() + System.lineSeparator());
             }
+            assert new File(filePath).exists() : "Save file should exist after saving";
+            // the above line does not create a file
         } catch (IOException e) {
             System.out.println("Error writing to file: " + e.getMessage());
         }

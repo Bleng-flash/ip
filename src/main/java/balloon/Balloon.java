@@ -54,6 +54,7 @@ public class Balloon {
     public String getResponse(String input) {
         try {
             Command command = Parser.parseUserInput(input);
+            assert command != null : "Parser should never return a null command";
             command.execute(tasks, ui, storage);
             commandType = command.getClass().getSimpleName();
             return command.getString();
