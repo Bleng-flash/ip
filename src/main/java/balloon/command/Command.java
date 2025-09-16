@@ -12,8 +12,8 @@ import balloon.exception.TaskNumberException;
  * tasks as completed, using the execute method.
  * </p>
  */
-public interface Command {
-    enum CommandType {
+public abstract class Command {
+    public enum CommandType {
         LIST, EXIT,
         TODO, DEADLINE, EVENT,
         MARK, UNMARK, DELETE, FIND
@@ -26,18 +26,26 @@ public interface Command {
      * @param storage the storage handler used to load or save tasks.
      * @throws TaskNumberException if the command refers to an invalid task number.
      */
-    void execute(TaskList tasks, Storage storage) throws TaskNumberException;
+    public abstract void execute(TaskList tasks, Storage storage) throws TaskNumberException;
 
 
     /**
      * @return true if command is Exit; false otherwise.
      */
-    boolean isExit();
+    public abstract boolean isExit();
 
     /**
      *
      * @return the GUI's response to the command passed in by the user
      */
-    String getString();
+    public abstract String getString();
+
+    /**
+     *
+     * @return  the save format as a String of this command
+     */
+    public String toSaveFormat() {
+
+    }
 
 }

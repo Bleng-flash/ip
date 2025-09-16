@@ -5,7 +5,7 @@ import balloon.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
-public class MarkCommand implements Command {
+public class MarkCommand extends Command {
     private int taskNumber;
     Task markedTask;
 

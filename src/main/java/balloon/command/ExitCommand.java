@@ -4,7 +4,7 @@ import balloon.Storage;
 import balloon.TaskList;
 import javafx.application.Platform;
 
-public class ExitCommand implements Command {
+public class ExitCommand extends Command {
     @Override
     public void execute(TaskList tasks, Storage storage) {
         Platform.exit();

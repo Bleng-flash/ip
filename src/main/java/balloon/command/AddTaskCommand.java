@@ -4,7 +4,7 @@ import balloon.Storage;
 import balloon.TaskList;
 import balloon.task.Task;
 
-public abstract class AddTaskCommand implements Command {
+public abstract class AddTaskCommand extends Command {
     protected Task task;
     private int numberOfTasks;
 

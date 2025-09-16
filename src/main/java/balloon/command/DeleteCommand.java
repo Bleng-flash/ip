@@ -5,7 +5,7 @@ import balloon.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
-public class DeleteCommand implements Command {
+public class DeleteCommand extends Command {
     private int taskNumber;
     private Task deletedTask;
     private int numberOfTasks;

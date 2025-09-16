@@ -5,7 +5,7 @@ import balloon.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
-public class UnmarkCommand implements Command {
+public class UnmarkCommand extends Command {
     private int taskNumber;
     private Task unmarkedTask;
 
