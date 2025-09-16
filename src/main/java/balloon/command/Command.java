@@ -2,7 +2,6 @@ package balloon.command;
 
 import balloon.Storage;
 import balloon.TaskList;
-import balloon.Ui;
 import balloon.exception.TaskNumberException;
 
 /**
@@ -24,11 +23,10 @@ public interface Command {
      * Executes the actions encapsulated within this Command.
      *
      * @param tasks the list of tasks.
-     * @param ui the user interface for displaying messages.
      * @param storage the storage handler used to load or save tasks.
      * @throws TaskNumberException if the command refers to an invalid task number.
      */
-    void execute(TaskList tasks, Ui ui, Storage storage) throws TaskNumberException;
+    void execute(TaskList tasks, Storage storage) throws TaskNumberException;
 
 
     /**

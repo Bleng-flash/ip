@@ -2,7 +2,6 @@ package balloon.command;
 
 import balloon.Storage;
 import balloon.TaskList;
-import balloon.Ui;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
@@ -16,10 +15,9 @@ public class DeleteCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskNumberException {
+    public void execute(TaskList tasks, Storage storage) throws TaskNumberException {
         deletedTask = tasks.deleteTask(taskNumber - 1);
         numberOfTasks = tasks.getSize();
-        // ui.showDeleteTaskMessage(deletedTask, tasks.getSize());
     }
 
     @Override

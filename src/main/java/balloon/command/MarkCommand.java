@@ -2,7 +2,6 @@ package balloon.command;
 
 import balloon.Storage;
 import balloon.TaskList;
-import balloon.Ui;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
@@ -15,9 +14,8 @@ public class MarkCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws TaskNumberException {
+    public void execute(TaskList tasks, Storage storage) throws TaskNumberException {
         markedTask = tasks.markTask(taskNumber - 1);
-        // ui.showMarkTaskMessage(markedTask);
     }
 
     @Override

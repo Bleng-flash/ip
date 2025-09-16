@@ -2,7 +2,6 @@ package balloon.command;
 
 import balloon.Storage;
 import balloon.TaskList;
-import balloon.Ui;
 import balloon.task.Task;
 
 public abstract class AddTaskCommand implements Command {
@@ -14,9 +13,8 @@ public abstract class AddTaskCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Storage storage) {
         tasks.addTask(task);
-        // ui.showAddTaskMessage(task, tasks.getSize());
         numberOfTasks = tasks.getSize();
     }
 

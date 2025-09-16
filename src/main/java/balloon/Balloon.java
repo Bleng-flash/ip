@@ -9,7 +9,6 @@ import balloon.exception.BalloonException;
 public class Balloon {
 
     private TaskList tasks;
-    private Ui ui;
     private Storage storage;
 
     private String commandType;
@@ -19,7 +18,6 @@ public class Balloon {
      * @param filePath a string representing the relative path of the file loaded into storage.
      */
     public Balloon(String filePath) {
-        ui = new Ui();
         storage = new Storage(filePath);
         tasks = new TaskList(storage.loadSavedTasks());
     }
@@ -31,7 +29,7 @@ public class Balloon {
         try {
             String trimmedInput = input.trim();
             Command command = Parser.parseUserInput(trimmedInput);
-            command.execute(tasks, ui, storage);
+            command.execute(tasks, storage);
             commandType = command.getClass().getSimpleName();
             return command.getString();
         } catch (BalloonException e) {
