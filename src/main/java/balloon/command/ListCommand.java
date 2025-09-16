@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 import balloon.Storage;
 import balloon.TaskList;
-import balloon.Ui;
 import balloon.task.Task;
 
 public class ListCommand implements Command {
     ArrayList<Task> tasks;
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
-        // ui.printTasks(tasks.getTasks());
+    public void execute(TaskList tasks, Storage storage) {
         this.tasks = tasks.getTasks();
     }
 

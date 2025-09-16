@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import balloon.Storage;
 import balloon.TaskList;
-import balloon.Ui;
 import balloon.task.Task;
 
 public class FindCommand implements Command {
@@ -16,9 +15,8 @@ public class FindCommand implements Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) {
+    public void execute(TaskList tasks, Storage storage) {
         tasksFound = tasks.getTasksWithKeyword(keyword);
-        // ui.showFindMessage(tasksFound);
     }
 
     @Override
