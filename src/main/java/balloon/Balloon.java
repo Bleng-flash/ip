@@ -30,6 +30,8 @@ public class Balloon {
             String trimmedInput = input.trim();
             Command command = Parser.parseUserInput(trimmedInput);
             command.execute(tasks, storage);
+            assert command != null : "Parser should never return a null command";
+
             commandType = command.getClass().getSimpleName();
             return command.getString();
         } catch (BalloonException e) {

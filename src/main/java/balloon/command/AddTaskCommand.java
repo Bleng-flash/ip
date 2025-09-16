@@ -16,6 +16,7 @@ public abstract class AddTaskCommand implements Command {
     public void execute(TaskList tasks, Storage storage) {
         tasks.addTask(task);
         numberOfTasks = tasks.getSize();
+        assert tasks.getSize() > 0 : "Task list should not be empty after adding a task";
     }
 
     @Override
