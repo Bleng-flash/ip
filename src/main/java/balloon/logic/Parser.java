@@ -2,14 +2,14 @@ package balloon.logic;
 
 import balloon.command.Command;
 import balloon.command.Command.CommandType;
+import balloon.command.DeadlineCommand;
 import balloon.command.DeleteCommand;
+import balloon.command.EventCommand;
 import balloon.command.ExitCommand;
 import balloon.command.FindCommand;
 import balloon.command.ListCommand;
 import balloon.command.MarkCommand;
 import balloon.command.TodoCommand;
-import balloon.command.DeadlineCommand;
-import balloon.command.EventCommand;
 import balloon.command.UndoCommand;
 import balloon.command.UnmarkCommand;
 import balloon.exception.MissingInformationException;
@@ -20,12 +20,27 @@ import balloon.task.Deadline;
 import balloon.task.Event;
 import balloon.task.Todo;
 
+/**
+ * Parses user input strings into corresponding {@link Command} objects.
+ * This class is responsible for interpreting commands like "todo",
+ * "deadline", "event", "mark", "unmark", "delete", "find", "list", "undo", and "bye".
+ */
 public class Parser {
 
     /**
+     * Converts a trimmed user input string into a {@link Command} object.
+     * <p>
+     * The parser supports commands that may require additional information,
+     * e.g., task descriptions or task numbers, and throws exceptions if the
+     * input is missing information or is invalid.
      *
-     * @param input is the trimmed version of the user input into stdin
-     * @return Command to be executed
+     * @param input the trimmed string entered by the user
+     * @return the {@link Command} corresponding to the user's input
+     * @throws NoCommandException if the input is blank
+     * @throws MissingInformationException if required details for the command are missing
+     * @throws UnknownCommandException if the input does not match any known command
+     * @throws StringConversionException if a command expecting an integer argument
+     *         is followed by a non-integer string
      */
     public static Command parseUserInput(String input) throws
             NoCommandException, MissingInformationException,

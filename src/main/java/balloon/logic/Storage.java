@@ -6,24 +6,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import balloon.task.Task;
-import balloon.task.Todo;
 import balloon.task.Deadline;
 import balloon.task.Event;
+import balloon.task.Task;
+import balloon.task.Todo;
 
 /**
- * Keeps track of task data across application sessions.
+ * Stores and maintains task data across and during application sessions.
+ * <p>
  * This class reads the list of tasks from a data file at application startup,
- * and writes updates back to the file at the execution of every command.
+ * and writes updates back to the file whenever the task list is modified.
+ * It supports {@link Todo}, {@link Deadline}, and {@link Event} tasks.
  */
 public class Storage {
     private final String filePath;
 
-
+    /**
+     * Constructs a {@code Storage} object with a specified file path.
+     *
+     * @param filePath the path to the save file
+     */
     public Storage(String filePath) {
         this.filePath = filePath;
     }
 
+    /**
+     * Constructs a {@code Storage} object with an empty file path.
+     */
     public Storage() {
         filePath = "";
     }
@@ -59,9 +68,12 @@ public class Storage {
     }
 
     /**
-     * Saves the list of tasks to the save file. Each task will be represented on one line.
+     * Saves the current list of tasks to the save file.
+     * <p>
+     * Each task is represented as a single line in the file in a
+     * specific format that can later be parsed
      *
-     * @param tasks
+     * @param tasks the list of tasks to save
      */
     public void save(ArrayList<Task> tasks) {
         File file = new File(filePath);
@@ -102,20 +114,20 @@ public class Storage {
         Task task;
 
         switch (type) {
-            case "TODO":
-                task = new Todo(description);
-                break;
-            case "DEADLINE":
-                String by = parts[3];
-                task = new Deadline(description, by);
-                break;
-            case "EVENT":
-                String from = parts[3];
-                String to = parts[4];
-                task = new Event(description, from, to);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown task type in save file: " + type);
+        case "TODO":
+            task = new Todo(description);
+            break;
+        case "DEADLINE":
+            String by = parts[3];
+            task = new Deadline(description, by);
+            break;
+        case "EVENT":
+            String from = parts[3];
+            String to = parts[4];
+            task = new Event(description, from, to);
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown task type in save file: " + type);
         }
 
         if (isDone) {
