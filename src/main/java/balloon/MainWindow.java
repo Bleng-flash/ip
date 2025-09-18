@@ -33,9 +33,14 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
-    public void setDuke(Balloon b) {
+    /** Injects the Balloon instance */
+    public void setBalloon(Balloon b) {
         balloon = b;
+
+        // Display greeting once the app starts
+        dialogContainer.getChildren().add(
+                DialogBox.getDukeDialog(balloon.getGreeting(), dukeImage, "Greeting")
+        );
     }
 
     /**

@@ -47,4 +47,11 @@ public class Balloon {
     public String getCommandType() {
         return commandType;
     }
+
+    /**
+     * Returns the greeting that the user sees upon first starting the app.
+     */
+    public String getGreeting() {
+        return "Hello I'm Balloon!\n How may I help?";
+    }
 }
