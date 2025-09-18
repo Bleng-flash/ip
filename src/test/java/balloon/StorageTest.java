@@ -14,7 +14,7 @@ public class StorageTest {
         String line = "UNKNOWN | 1 | description";
         try {
             Storage storage = new Storage();
-            storage.parseLine(line);
+            storage.parseLineForTask(line);
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Unknown task type in save file: UNKNOWN",
@@ -28,7 +28,7 @@ public class StorageTest {
         try {
             Storage storage = new Storage();
             assertEquals(new Deadline("CS2103T iP homework", "2025-09-01 2359"),
-                    storage.parseLine(line));
+                    storage.parseLineForTask(line));
         } catch (IllegalArgumentException e) {
             fail();
         }
