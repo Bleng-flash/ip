@@ -73,6 +73,7 @@ public class DialogBox extends HBox {
             break;
         case "ExceptionInduced":
             dialog.getStyleClass().add("error-label");
+            break;
         default:
             // Do nothing
         }

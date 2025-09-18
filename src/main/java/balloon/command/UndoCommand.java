@@ -1,11 +1,10 @@
 package balloon.command;
 
+import balloon.exception.CommandNotUndoableException;
+import balloon.exception.TaskNumberException;
 import balloon.logic.Balloon;
 import balloon.logic.Storage;
 import balloon.logic.TaskList;
-import balloon.exception.CommandNotUndoableException;
-import balloon.exception.SaveFileException;
-import balloon.exception.TaskNumberException;
 
 /**
  * Represents a command that undoes the previous command successfully executed.
@@ -28,7 +27,7 @@ public class UndoCommand extends Command {
      */
     @Override
     public void execute(TaskList tasks, Storage storage, Balloon balloon)
-            throws TaskNumberException, CommandNotUndoableException, SaveFileException {
+            throws TaskNumberException, CommandNotUndoableException {
         Command lastCommand = balloon.getLastCommand();
         if (lastCommand == null || !lastCommand.isUndoable()) {
             throw new CommandNotUndoableException();

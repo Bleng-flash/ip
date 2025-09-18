@@ -11,7 +11,7 @@ import balloon.task.Task;
  * Represents a command that displays every task on the task list.
  */
 public class ListCommand extends Command {
-    ArrayList<Task> tasks;
+    private ArrayList<Task> tasks;
 
     @Override
     public void execute(TaskList tasks, Storage storage, Balloon balloon) {

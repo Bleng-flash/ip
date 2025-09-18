@@ -1,11 +1,10 @@
 package balloon.command;
 
+import balloon.exception.CommandNotUndoableException;
+import balloon.exception.TaskNumberException;
 import balloon.logic.Balloon;
 import balloon.logic.Storage;
 import balloon.logic.TaskList;
-import balloon.exception.CommandNotUndoableException;
-import balloon.exception.SaveFileException;
-import balloon.exception.TaskNumberException;
 
 /**
  * Represents an executable user command in the application.
@@ -37,7 +36,7 @@ public abstract class Command {
      * @throws TaskNumberException if the command refers to an invalid task number.
      */
     public abstract void execute(TaskList tasks, Storage storage, Balloon balloon)
-            throws TaskNumberException, SaveFileException, CommandNotUndoableException;
+            throws TaskNumberException, CommandNotUndoableException;
 
 
     /**
