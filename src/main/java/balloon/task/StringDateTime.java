@@ -7,8 +7,9 @@ import java.time.format.DateTimeParseException;
 
 /**
  * Encapsulates a date which can be represented as a String, a LocalDate, or a LocalDateTime.
+ * <p>
  * Objects of this class will be treated as a LocalDate or a LocalDateTime if they can fit their
- * format; otherwise by default they will be treated as a String.
+ * format; otherwise by default they will be treated as a plain String.
  * <p>
  * This class is useful for the {@link Deadline} and {@link Event} tasks.
  */
@@ -24,21 +25,36 @@ public class StringDateTime {
     private static final DateTimeFormatter OUTPUT_DATE_TIME_FORMAT =
             DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
 
+    /**
+     * Enum representing the internal format of this object.
+     */
     private enum OutputFormat {
         STRING, DATE, DATE_TIME;
     }
 
-    private String str; // Fallback if user did not pass in a valid date
+    private String str; // original input string
     private LocalDateTime dateTime; // Parsed LocalDateTime if valid
     private OutputFormat format;
 
+    /**
+     * Constructs a StringDateTime object from a string input.
+     *
+     * @param input the input string to parse
+     */
     public StringDateTime(String input) {
         str = input;
         parseString(input);
     }
 
     /**
-     * Parses the input string and sets the appropriate format and dateTime fields.
+     * Parses the input string and determines its format.
+     * <p>
+     * Sets the {@link #dateTime} and {@link #format} fields according to the type of input:
+     * <ul>
+     *   <li>DATE_TIME if input matches "yyyy-MM-dd HHmm"</li>
+     *   <li>DATE if input matches "yyyy-MM-dd"</li>
+     *   <li>STRING if input matches neither</li>
+     * </ul>
      *
      * @param input the string to parse
      */
@@ -61,7 +77,7 @@ public class StringDateTime {
     /**
      * Returns a user-friendly string representation of the date/time.
      *
-     * @return formatted string according to type (STRING, DATE, or DATE_TIME)
+     * @return outputted string according to format (STRING, DATE, or DATE_TIME)
      */
     public String getOutputString() {
         switch (format) {

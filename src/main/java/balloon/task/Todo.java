@@ -1,5 +1,10 @@
 package balloon.task;
 
+/**
+ * Represents a Todo task.
+ * <p>
+ * A Todo is a type of {@link Task} that has only a description.
+ */
 public class Todo extends Task {
 
     /**
