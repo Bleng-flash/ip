@@ -73,6 +73,15 @@ public class TaskList {
     }
 
     /**
+     * Adds the task to the specified index in this TaskList, and shifts every
+     * subsequent task in the list to the right by 1 (if any).
+     */
+    public void addTaskAtIndex(int index, Task task) {
+        tasks.add(index, task);
+    }
+
+
+    /**
      * Deletes a task specified by the given index.
      *
      * @param index position of the task in the list.

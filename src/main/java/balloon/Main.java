@@ -15,16 +15,17 @@ public class Main extends Application {
     private static final String DEFAULT_FILE_PATH = "./data/balloon.txt";
     private Balloon balloon = new Balloon(DEFAULT_FILE_PATH);
 
-    // Existing constructor
-    public Main(String filePath) {
 
-    }
-
-    // Overloaded constructor
+    // JavaFX requires Main to have a nullary constructor
     public Main() {
-        this(DEFAULT_FILE_PATH);
+
     }
 
+    /**
+     * This method is automatically called upon launch of the application
+     *
+     * @param stage
+     */
     @Override
     public void start(Stage stage) {
         try {
@@ -35,7 +36,7 @@ public class Main extends Application {
             stage.setMinHeight(220);
             stage.setMinWidth(417);
             // stage.setMaxWidth(417); // Add this if you didn't automatically resize elements
-            fxmlLoader.<MainWindow>getController().setDuke(balloon);  // inject the Duke instance
+            fxmlLoader.<MainWindow>getController().setBalloon(balloon);  // inject the Balloon instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

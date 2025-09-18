@@ -1,5 +1,6 @@
 package balloon.command;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.exception.CommandNotUndoableException;
@@ -28,7 +29,7 @@ public abstract class Command {
      * @param storage the storage handler used to load or save tasks.
      * @throws TaskNumberException if the command refers to an invalid task number.
      */
-    public abstract void execute(TaskList tasks, Storage storage)
+    public abstract void execute(TaskList tasks, Storage storage, Balloon balloon)
             throws TaskNumberException, SaveFileException, CommandNotUndoableException;
 
 
@@ -44,16 +45,24 @@ public abstract class Command {
     public abstract String getString();
 
     /**
-     * The save format will either be:
-     * 1. NAME | taskNumber     (DeleteCommand, MarkCommand, UnmarkCommand)
-     *    or
-     * 2. NAME                  (for All other commands)
-     * where NAME is the class name of the class that the command belongs to
+     * By default, most commands are not undoable, so we throw an exception.
+     * We override this method in subclasses of Command that are undoable, i.e.
+     * {@link AddTaskCommand}, {@link DeleteCommand}, {@link MarkCommand}, and {@link UnmarkCommand},
+     * to provide their implementations.
      *
-     * @return  the save format as a String of this command
+     * @throws CommandNotUndoableException
      */
-    public String toSaveFormat() {
-        return this.getClass().getSimpleName();
+    // default no-op undo
+    public void undo(TaskList tasks, Storage storage)
+            throws CommandNotUndoableException, TaskNumberException {
+        throw new CommandNotUndoableException();
     }
+
+    /**
+     * Returns true iff the command is undoable; false otherwise.
+     * A command is undoable iff it is a {@link AddTaskCommand}, {@link DeleteCommand},
+     * {@link MarkCommand}, or {@link UnmarkCommand}
+     */
+    public abstract boolean isUndoable();
 
 }

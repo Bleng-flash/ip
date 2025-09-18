@@ -1,13 +1,11 @@
 package balloon;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import balloon.command.Command;
 import balloon.task.Task;
 import balloon.task.Todo;
 import balloon.task.Deadline;
@@ -16,7 +14,7 @@ import balloon.task.Event;
 /**
  * Keeps track of task data across application sessions.
  * This class reads the list of tasks from a data file at application startup,
- * and writes updates back to the file at application termination.
+ * and writes updates back to the file at the execution of every command.
  */
 public class Storage {
     private final String filePath;
@@ -46,10 +44,6 @@ public class Storage {
         }
 
         try (Scanner sc = new Scanner(file)) {
-            if (sc.hasNextLine()) {
-                sc.nextLine();  // skip the first line (last executed command)
-            }
-
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 Task task = parseLineForTask(line);
@@ -65,27 +59,20 @@ public class Storage {
     }
 
     /**
-     * Saves the last executed command, followed by the list of tasks to the save file.
-     * The lastCommand save format will either be:
-     *  1. NAME | taskNumber     (DeleteCommand, MarkCommand, UnmarkCommand)
-     *      or
-     *  2. NAME                  (for All other commands)
+     * Saves the list of tasks to the save file. Each task will be represented on one line.
      *
      * @param tasks
-     * @param lastCommand   the last successfully executed command
      */
-    public void save(ArrayList<Task> tasks, Command lastCommand) {
+    public void save(ArrayList<Task> tasks) {
         File file = new File(filePath);
         file.getParentFile().mkdirs(); // Ensure ./data/ directory exists
 
         try (FileWriter fw = new FileWriter(file)) {
-            // Write the last command
-            fw.write(lastCommand.toSaveFormat() + System.lineSeparator());
-
-            // Write the tasks currently in the list
+            // Write the tasks currently in the task list
             for (Task t : tasks) {
                 fw.write(t.toSaveFormat() + System.lineSeparator());
             }
+
             assert new File(filePath).exists() : "Save file should exist after saving";
             // the above line does not create a file
         } catch (IOException e) {
@@ -137,21 +124,4 @@ public class Storage {
         return task;
     }
 
-    /**
-     *
-     * @return  the first line in the save file, which we assume is last executed command
-     */
-    public String getLastCommand() {
-        try (Scanner sc = new Scanner(new File(filePath))) {
-            if (sc.hasNextLine()) {
-                String firstLine = sc.nextLine();
-                return firstLine;
-            } else {
-                return ""; // occurs when the save fiile is empty
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage());
-            return "";
-        }
-    }
 }

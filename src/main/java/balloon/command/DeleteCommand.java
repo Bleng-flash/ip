@@ -1,5 +1,6 @@
 package balloon.command;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.exception.TaskNumberException;
@@ -15,9 +16,14 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) throws TaskNumberException {
+    public void execute(TaskList tasks, Storage storage, Balloon balloon) throws TaskNumberException {
         deletedTask = tasks.deleteTask(taskNumber - 1);
         numberOfTasks = tasks.getSize();
+    }
+
+    @Override
+    public void undo(TaskList tasks, Storage storage) {
+        tasks.addTaskAtIndex(taskNumber - 1, deletedTask);
     }
 
     @Override
@@ -32,7 +38,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public String toSaveFormat() {
-        return super.toSaveFormat() + " | " + taskNumber;
+    public boolean isUndoable() {
+        return true;
     }
 }

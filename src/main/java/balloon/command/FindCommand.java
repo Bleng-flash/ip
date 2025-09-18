@@ -2,6 +2,7 @@ package balloon.command;
 
 import java.util.ArrayList;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.task.Task;
@@ -15,7 +16,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) {
+    public void execute(TaskList tasks, Storage storage, Balloon balloon) {
         tasksFound = tasks.getTasksWithKeyword(keyword);
     }
 
@@ -31,5 +32,10 @@ public class FindCommand extends Command {
             out += String.format("\n%d.%s", i, tasksFound.get(i - 1));
         }
         return out;
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return false;
     }
 }
