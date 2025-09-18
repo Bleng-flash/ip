@@ -10,7 +10,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
- * Controller for the main GUI.
+ * Controller for the main GUI window of the Balloon application.
+ * <p>
+ * Handles user input, displays dialog boxes for both the user and Balloon,
+ * and initializes the GUI components such as the scroll pane and dialog container.
  */
 public class MainWindow extends AnchorPane {
     @FXML
@@ -27,24 +30,34 @@ public class MainWindow extends AnchorPane {
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaDuke.png"));
 
+    /**
+     * Initialises the main window.
+     * Binds the vertical scroll of the scroll pane to the height of the dialog container.
+     * This ensures that the latest messages are always visible.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Balloon instance */
+    /**
+     * Injects the {@link Balloon} instance into this controller.
+     * Displays a greeting message from Balloon when the application starts.
+     *
+     * @param b the Balloon instance
+     */
     public void setBalloon(Balloon b) {
         balloon = b;
 
         // Display greeting once the app starts
         dialogContainer.getChildren().add(
-                DialogBox.getDukeDialog(balloon.getGreeting(), dukeImage, "Greeting")
+                DialogBox.getBalloonDialog(balloon.getGreeting(), dukeImage, "Greeting")
         );
     }
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply
+     * and then appends them to the dialog container. Clears the user input after processing.
      */
     @FXML
     private void handleUserInput() {
@@ -53,7 +66,7 @@ public class MainWindow extends AnchorPane {
         String commandType = balloon.getCommandType();
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getDukeDialog(response, dukeImage, commandType)
+                DialogBox.getBalloonDialog(response, dukeImage, commandType)
         );
         userInput.clear();
     }

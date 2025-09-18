@@ -2,7 +2,8 @@ package balloon.exception;
 
 import balloon.command.Command.CommandType;
 
-/** Represents an exception that is thrown when a command that requires
+/**
+ * Represents an exception that is thrown when a command that requires
  * an integer argument is instead followed by a non-integer string.
  * This exception may be thrown on {@code MarkCommand}, {@code UnmarkCommand} and
  * {@code DeleteCommand}.
