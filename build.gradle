@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'checkstyle'
 }
 
 repositories {
@@ -50,6 +51,15 @@ shadowJar {
     archiveBaseName = "balloon"
     archiveClassifier = null
 }
+
+checkstyle {
+    toolVersion = '10.12.0'  // Use the latest version
+    configFile = file('config/checkstyle/checkstyle.xml')
+    configProperties = [
+            'checkstyle.suppressions.file': file('config/checkstyle/suppressions.xml')
+    ]
+}
+
 
 run{
     standardInput = System.in
