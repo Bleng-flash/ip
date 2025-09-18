@@ -6,8 +6,6 @@
 those familiar with a Command Line Interface(CLI). \
 There are 3 types of tasks supported: Todo, Deadline, and Event. \
 
-## Quick Start
-
 ## Features
 1. [List](#list-all-tasks)
 2. [Add Todo](#add-a-todo-task)
@@ -31,11 +29,35 @@ Format: `todo <description>`
 
 ### Add a Deadline task
 Adds a Deadline task to the end of the list of tasks. \
-Format: `deadline <description> /by <time/date>`
+Format: `deadline <description> /by <date/time>`
+- The date/time fields can be interpreted in 3 ways:
+    1. Date format
+        - Input is of the form "yyyy--MM--dd" and represents a valid Date
+        - When displayed (using `list`), the output will be shown as "MMM dd yyyy"
+    2. Date-Time format
+        - Input is of the form "yyyy--MM--dd HHmm" and represents a valid Date-Time
+        - When displayed (using `list`), the output will be shown as "MMM dd yyyy HH:mm"
+    3. Raw string
+        - If the time/date field cannot be interpreted using either
+          of the above 2 methods, then this is the default
+        - When displayed (using `list), the output will be the same as
+          the raw input string
 
 ### Add an Event task
 Adds an Event task to the end of the list of tasks. \
-Format: `event <description> /from <time/date> /to <time/date>`
+Format: `event <description> /from <date/time> /to <date/time>`
+- The date/time fields can be interpreted in 3 ways:
+  1. Date format 
+     - Input is of the form "yyyy--MM--dd" and represents a valid Date 
+     - When displayed (using `list`), the output will be shown as "MMM dd yyyy"
+  2. Date-Time format 
+     - Input is of the form "yyyy--MM--dd HHmm" and represents a valid Date-Time
+     - When displayed (using `list`), the output will be shown as "MMM dd yyyy HH:mm"
+  3. Raw string 
+     - If the time/date field cannot be interpreted using either 
+     of the above 2 methods, then this is the default 
+     - When displayed (using `list), the output will be the same as 
+     the raw input string 
 
 ### Delete a task
 Deletes the task specified by the given task number. \
