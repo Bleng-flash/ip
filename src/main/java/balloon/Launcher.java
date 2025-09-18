@@ -1,5 +1,6 @@
 package balloon;
 
+import balloon.logic.Main;
 import javafx.application.Application;
 
 /**

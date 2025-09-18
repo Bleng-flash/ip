@@ -1,11 +1,22 @@
 package balloon.command;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
 import balloon.exception.TaskNumberException;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import balloon.task.Task;
 
+/**
+ * Represents a command that adds a task to the task list in Balloon.
+ * <p>
+ * When executed, it adds the specified task to the end of the task list.
+ * <p>
+ * There are 3 concrete subclasses of this abstract class, which are:
+ * {@link TodoCommand}, {@link DeadlineCommand}, and {@link EventCommand}
+ * <p>
+ * All subclasses of this command supports undo, which removes the most recently added
+ * task from the task list.
+ */
 public abstract class AddTaskCommand extends Command {
     protected Task task;
     private int numberOfTasks;
@@ -34,8 +45,8 @@ public abstract class AddTaskCommand extends Command {
 
     @Override
     public String getString() {
-        return "Got it. I've added this task: \n\t" + task + "\n" +
-                "Now you have " + numberOfTasks + " tasks in the list.";
+        return "Got it. I've added this task: \n\t" + task + "\n"
+                + "Now you have " + numberOfTasks + " tasks in the list.";
     }
 
     @Override

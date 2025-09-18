@@ -1,4 +1,4 @@
-package balloon;
+package balloon.logic;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,10 @@ import balloon.task.Task;
 
 /**
  * Represents a list of tasks that the user has.
- * Certain commands will invoke methods from this to modify the list of tasks.
+ * <p>
+ * This class provides methods to manipulate tasks, such as adding, deleting,
+ * marking, unmarking, and searching tasks. Commands in the Balloon program
+ * interact with this class to modify the task list.
  */
 public class TaskList {
 
@@ -22,13 +25,15 @@ public class TaskList {
     }
 
     /**
-     *
      * @return number of tasks.
      */
     public int getSize() {
         return tasks.size();
     }
 
+    /**
+     * @return the tasks as an ArrayList
+     */
     public ArrayList<Task> getTasks() {
         return tasks;
     }
@@ -42,7 +47,7 @@ public class TaskList {
      */
     public Task markTask(int index) throws TaskNumberException {
         if (index < 0 || index >= tasks.size()) {
-           throw new TaskNumberException();
+            throw new TaskNumberException();
         }
         Task markedTask = tasks.get(index);
         markedTask.markAsDone();

@@ -2,11 +2,15 @@ package balloon.command;
 
 import java.util.ArrayList;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import balloon.task.Task;
 
+/**
+ * Represents a command that shows all the tasks that contain a certain keyword
+ * in their description.
+ */
 public class FindCommand extends Command {
     private String keyword;
     private ArrayList<Task> tasksFound;

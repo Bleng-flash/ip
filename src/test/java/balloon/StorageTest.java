@@ -1,12 +1,12 @@
 package balloon;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.Test;
+
+import balloon.logic.Storage;
 import balloon.task.Deadline;
-import balloon.task.Todo;
 
 public class StorageTest {
     @Test

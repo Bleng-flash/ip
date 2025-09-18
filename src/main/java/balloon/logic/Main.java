@@ -1,7 +1,8 @@
-package balloon;
+package balloon.logic;
 
 import java.io.IOException;
 
+import balloon.ui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * A GUI for Duke using FXML.
+ * Represents a GUI for Duke using FXML.
  */
 public class Main extends Application {
     private static final String DEFAULT_FILE_PATH = "./data/balloon.txt";
@@ -38,7 +39,7 @@ public class Main extends Application {
             stage.setMinHeight(220);
             stage.setMinWidth(417);
 
-            fxmlLoader.<MainWindow>getController().setBalloon(balloon);  // inject the Balloon instance
+            fxmlLoader.<MainWindow>getController().setBalloon(balloon); // inject the Balloon instance
 
             stage.show();
         } catch (IOException e) {

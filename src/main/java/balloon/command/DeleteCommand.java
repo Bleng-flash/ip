@@ -1,11 +1,17 @@
 package balloon.command;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
 import balloon.exception.TaskNumberException;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import balloon.task.Task;
 
+/**
+ * Represents a command that deletes a Task from the task list, by specifying its task number.
+ * <p>
+ * This command supports undo, which restores the deleted task to its
+ * original position in the task list.
+ */
 public class DeleteCommand extends Command {
     private int taskNumber;
     private Task deletedTask;
@@ -33,8 +39,8 @@ public class DeleteCommand extends Command {
 
     @Override
     public String getString() {
-        return "Noted. I've removed this task:\n\t" + deletedTask + "\n" +
-                "Now you have " + numberOfTasks + " tasks in the list.";
+        return "Noted. I've removed this task:\n\t" + deletedTask + "\n"
+                + "Now you have " + numberOfTasks + " tasks in the list.";
     }
 
     @Override

@@ -2,13 +2,16 @@ package balloon.command;
 
 import java.util.ArrayList;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import balloon.task.Task;
 
+/**
+ * Represents a command that displays every task on the task list.
+ */
 public class ListCommand extends Command {
-    ArrayList<Task> tasks;
+    private ArrayList<Task> tasks;
 
     @Override
     public void execute(TaskList tasks, Storage storage, Balloon balloon) {

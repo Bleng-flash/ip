@@ -1,11 +1,17 @@
 package balloon.command;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
 import balloon.exception.TaskNumberException;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import balloon.task.Task;
 
+/**
+ * Represents a command that marks a task in the task list as not done, by specifying its
+ * task number.
+ * <p>
+ * This command supports undo, which marks the task as done.
+ */
 public class UnmarkCommand extends Command {
     private int taskNumber;
     private Task unmarkedTask;
