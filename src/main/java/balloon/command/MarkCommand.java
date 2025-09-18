@@ -6,9 +6,15 @@ import balloon.logic.TaskList;
 import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
+/**
+ * Represents a command that marks a task in the task list as done, by specifying its
+ * task number.
+ * <p>
+ * This command supports undo, which marks the task as not done.
+ */
 public class MarkCommand extends Command {
     private int taskNumber;
-    Task markedTask;
+    private Task markedTask;
 
     public MarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;

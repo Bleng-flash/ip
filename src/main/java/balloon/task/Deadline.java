@@ -1,7 +1,5 @@
 package balloon.task;
 
-import balloon.logic.StringDateTime;
-
 public class Deadline extends Task {
 
     private StringDateTime by;

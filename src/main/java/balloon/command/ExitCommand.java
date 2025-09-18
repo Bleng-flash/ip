@@ -5,6 +5,9 @@ import balloon.logic.Storage;
 import balloon.logic.TaskList;
 import javafx.application.Platform;
 
+/**
+ * Represents a command that terminates the app and exits.
+ */
 public class ExitCommand extends Command {
     @Override
     public void execute(TaskList tasks, Storage storage, Balloon balloon) {

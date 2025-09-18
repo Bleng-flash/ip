@@ -7,6 +7,10 @@ import balloon.logic.Storage;
 import balloon.logic.TaskList;
 import balloon.task.Task;
 
+/**
+ * Represents a command that shows all the tasks that contain a certain keyword
+ * in their description.
+ */
 public class FindCommand extends Command {
     private String keyword;
     private ArrayList<Task> tasksFound;

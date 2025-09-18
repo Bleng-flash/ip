@@ -16,10 +16,17 @@ import balloon.exception.TaskNumberException;
  * </p>
  */
 public abstract class Command {
+    /**
+     * Represents the types of commands that can be issued in Balloon.
+     * <p>
+     * Each enum constant corresponds to a specific command the user can enter.
+     */
     public enum CommandType {
         LIST, EXIT,
         TODO, DEADLINE, EVENT,
-        MARK, UNMARK, DELETE, FIND
+        MARK, UNMARK, DELETE,
+        FIND,
+        UNDO
     }
 
     /**
@@ -39,20 +46,19 @@ public abstract class Command {
     public abstract boolean isExit();
 
     /**
-     *
      * @return the GUI's response to the command passed in by the user
      */
     public abstract String getString();
 
     /**
      * By default, most commands are not undoable, so we throw an exception.
+     * <p>
      * We override this method in subclasses of Command that are undoable, i.e.
      * {@link AddTaskCommand}, {@link DeleteCommand}, {@link MarkCommand}, and {@link UnmarkCommand},
      * to provide their implementations.
      *
      * @throws CommandNotUndoableException
      */
-    // default no-op undo
     public void undo(TaskList tasks, Storage storage)
             throws CommandNotUndoableException, TaskNumberException {
         throw new CommandNotUndoableException();
@@ -64,5 +70,4 @@ public abstract class Command {
      * {@link MarkCommand}, or {@link UnmarkCommand}
      */
     public abstract boolean isUndoable();
-
 }
