@@ -1,7 +1,9 @@
 package balloon.command;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
+import balloon.exception.TaskNumberException;
 import balloon.task.Task;
 
 public abstract class AddTaskCommand extends Command {
@@ -13,10 +15,15 @@ public abstract class AddTaskCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) {
+    public void execute(TaskList tasks, Storage storage, Balloon balloon) {
         tasks.addTask(task);
         numberOfTasks = tasks.getSize();
         assert tasks.getSize() > 0 : "Task list should not be empty after adding a task";
+    }
+
+    @Override
+    public void undo(TaskList tasks, Storage storage) throws TaskNumberException {
+        tasks.deleteTask(tasks.getSize() - 1);
     }
 
     @Override
@@ -29,5 +36,10 @@ public abstract class AddTaskCommand extends Command {
     public String getString() {
         return "Got it. I've added this task: \n\t" + task + "\n" +
                 "Now you have " + numberOfTasks + " tasks in the list.";
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return true;
     }
 }

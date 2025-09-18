@@ -1,12 +1,13 @@
 package balloon.command;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import javafx.application.Platform;
 
 public class ExitCommand extends Command {
     @Override
-    public void execute(TaskList tasks, Storage storage) {
+    public void execute(TaskList tasks, Storage storage, Balloon balloon) {
         Platform.exit();
     }
 
@@ -18,5 +19,10 @@ public class ExitCommand extends Command {
     @Override
     public String getString() {
         return "Bye. Hope to see you again soon!";
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return false;
     }
 }

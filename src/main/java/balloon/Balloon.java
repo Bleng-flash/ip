@@ -10,6 +10,7 @@ public class Balloon {
 
     private TaskList tasks;
     private Storage storage;
+    private Command lastCommand = null;
 
     private String commandType;
 
@@ -29,13 +30,19 @@ public class Balloon {
         try {
             String trimmedInput = input.trim();
             Command command = Parser.parseUserInput(trimmedInput);
-            command.execute(tasks, storage);
             assert command != null : "Parser should never return a null command";
-
             commandType = command.getClass().getSimpleName();
 
+            command.execute(tasks, storage, this);
+
+            // The line below must come after the above line because UndoCommand needs to
+            // reference the previous command in its execution.
+            // Also, this means that lastCommand will save the last command that executed
+            // successfully, i.e. without throwing an exception.
+            lastCommand = command;
+
             // Save tasks immediately after each command
-            storage.save(tasks.getTasks(), command);
+            storage.save(tasks.getTasks());
 
             return command.getString();
         } catch (BalloonException e) {
@@ -54,4 +61,9 @@ public class Balloon {
     public String getGreeting() {
         return "Hello I'm Balloon!\n How may I help?";
     }
+
+    public Command getLastCommand() {
+        return lastCommand;
+    }
+
 }

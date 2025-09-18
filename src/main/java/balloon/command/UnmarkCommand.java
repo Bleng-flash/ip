@@ -1,5 +1,6 @@
 package balloon.command;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.exception.TaskNumberException;
@@ -14,8 +15,13 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Storage storage) throws TaskNumberException {
+    public void execute(TaskList tasks, Storage storage, Balloon balloon) throws TaskNumberException {
         unmarkedTask = tasks.unmarkTask(taskNumber - 1);
+    }
+
+    @Override
+    public void undo(TaskList tasks, Storage storage) throws TaskNumberException {
+        tasks.markTask(taskNumber - 1);
     }
 
     @Override
@@ -29,7 +35,7 @@ public class UnmarkCommand extends Command {
     }
 
     @Override
-    public String toSaveFormat() {
-        return super.toSaveFormat() + " | " + taskNumber;
+    public boolean isUndoable() {
+        return true;
     }
 }

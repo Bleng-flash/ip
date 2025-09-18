@@ -2,6 +2,7 @@ package balloon.command;
 
 import java.util.ArrayList;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.task.Task;
@@ -10,7 +11,7 @@ public class ListCommand extends Command {
     ArrayList<Task> tasks;
 
     @Override
-    public void execute(TaskList tasks, Storage storage) {
+    public void execute(TaskList tasks, Storage storage, Balloon balloon) {
         this.tasks = tasks.getTasks();
     }
 
@@ -26,5 +27,10 @@ public class ListCommand extends Command {
             out += String.format("\n%d.%s", i, tasks.get(i - 1));
         }
         return out;
+    }
+
+    @Override
+    public boolean isUndoable() {
+        return false;
     }
 }

@@ -1,62 +1,33 @@
 package balloon.command;
 
+import balloon.Balloon;
 import balloon.Storage;
 import balloon.TaskList;
 import balloon.exception.SaveFileException;
 import balloon.exception.TaskNumberException;
 import balloon.exception.CommandNotUndoableException;
 
-
+/**
+ * The user can do a maximum of 1 UndoCommand in a row.
+ * Not all commands can be undone.
+ * In the case that the previous command is not undoable, a {@link CommandNotUndoableException}
+ * will be thrown if the user tries to undo it.
+ */
 public class UndoCommand extends Command {
 
     /**
-     * Undoes the last command successfully executed
+     * Undoes the last command successfully executed, if the last command is a
+     * AddTaskCommand (TodoCommand, DeadlineCommand, or EventCommand) ,
+     * DeleteCommand, MarkCommand or UnmarkCommand
      */
     @Override
-    public void execute(TaskList tasks, Storage storage)
+    public void execute(TaskList tasks, Storage storage, Balloon balloon)
             throws TaskNumberException, CommandNotUndoableException, SaveFileException {
-        String lastCommandSaveFormat = storage.getLastCommand();
-        if (getString().isEmpty()) {
-            throw new SaveFileException();
-        }
-
-        // splits using " | " as the delimiter
-        String[] parts = lastCommandSaveFormat.split(" \\| ");
-        String lastCommandName = parts[0];
-        Command equivalentCommand = null;
-        int taskNumber = -1;
-
-        switch (lastCommandName) {
-        case "MarkCommand":
-            taskNumber = Integer.parseInt(parts[1]);
-            equivalentCommand = new UnmarkCommand(taskNumber);
-            break;
-        case "UnmarkCommand":
-            taskNumber = Integer.parseInt(parts[1]);
-            equivalentCommand = new MarkCommand(taskNumber);
-            break;
-
-        // If the previous command was adding a task, then we simply delete the last task
-        // on the list
-        case "TodoCommand":
-        case "DeadlineCommand":
-        case "EventCommand":
-            equivalentCommand = new DeleteCommand(tasks.getSize());
-            break;
-
-        // all previous commands below this point should not be undoable
-        case "DeleteCommand": // For now, exclude DeleteCommand from undoable commands
-        case "UndoCommand":
-        case "ListCommand":
-        case "ExitCommand":
-        case "FindCommand":
+        Command lastCommand = balloon.getLastCommand();
+        if (lastCommand == null || !lastCommand.isUndoable()) {
             throw new CommandNotUndoableException();
-        default:
-            System.out.println("should not reach here");
         }
-
-        // when valid, the UndoCommand can always be translated to another existing Command
-        equivalentCommand.execute(tasks, storage);
+        lastCommand.undo(tasks, storage);
     }
 
     @Override
@@ -69,4 +40,11 @@ public class UndoCommand extends Command {
         return "Previous command successfully undone!";
     }
 
+    /**
+     * An UndoCommand is not undoable!
+     */
+    @Override
+    public boolean isUndoable() {
+        return false;
+    }
 }
