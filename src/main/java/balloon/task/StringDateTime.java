@@ -101,6 +101,7 @@ public class StringDateTime {
         return str;
     }
 
+    @Override
     public boolean equals(Object object) {
         if (object instanceof StringDateTime) {
             StringDateTime other = (StringDateTime) object;
