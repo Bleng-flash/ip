@@ -1,8 +1,8 @@
 package balloon.command;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import javafx.application.Platform;
 
 public class ExitCommand extends Command {

@@ -1,7 +1,8 @@
-package balloon;
+package balloon.logic;
 
 import java.io.IOException;
 
+import balloon.ui.MainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

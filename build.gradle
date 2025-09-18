@@ -53,11 +53,7 @@ shadowJar {
 }
 
 checkstyle {
-    toolVersion = '10.12.0'  // Use the latest version
-    configFile = file('config/checkstyle/checkstyle.xml')
-    configProperties = [
-            'checkstyle.suppressions.file': file('config/checkstyle/suppressions.xml')
-    ]
+    toolVersion = '11.0.0'
 }
 
 

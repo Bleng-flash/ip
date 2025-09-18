@@ -1,4 +1,4 @@
-package balloon;
+package balloon.ui;
 
 import java.io.IOException;
 import java.util.Collections;

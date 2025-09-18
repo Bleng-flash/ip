@@ -1,4 +1,4 @@
-package balloon;
+package balloon.logic;
 
 import balloon.command.Command;
 import balloon.command.Command.CommandType;

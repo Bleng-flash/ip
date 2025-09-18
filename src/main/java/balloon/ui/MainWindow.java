@@ -1,5 +1,6 @@
-package balloon;
+package balloon.ui;
 
+import balloon.logic.Balloon;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;

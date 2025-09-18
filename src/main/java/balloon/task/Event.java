@@ -1,6 +1,6 @@
 package balloon.task;
 
-import balloon.StringDateTime;
+import balloon.logic.StringDateTime;
 
 public class Event extends Task {
 

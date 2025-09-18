@@ -2,9 +2,9 @@ package balloon.command;
 
 import java.util.ArrayList;
 
-import balloon.Balloon;
-import balloon.Storage;
-import balloon.TaskList;
+import balloon.logic.Balloon;
+import balloon.logic.Storage;
+import balloon.logic.TaskList;
 import balloon.task.Task;
 
 public class FindCommand extends Command {

@@ -1,4 +1,4 @@
-package balloon;
+package balloon.logic;
 
 import java.io.File;
 import java.io.FileWriter;
