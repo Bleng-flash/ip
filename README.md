@@ -1,6 +1,6 @@
 # Balloon User Guide
 
-![Image of the UI of the Balloon chatbot](./Ui.png)
+![Image of the UI of the Balloon chatbot](./docs/Ui.png)
 
 **Balloon** is a chatbot for you to **manage your tasks**, optimised for
 those familiar with a Command Line Interface(CLI). \
