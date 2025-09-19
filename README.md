@@ -1,26 +1,103 @@
-# Duke project template
+# Balloon User Guide
 
-This is a project template for a greenfield Java project. It's named after the Java mascot _Duke_. Given below are instructions on how to use it.
+![Image of the UI of the Balloon chatbot](./Ui.png)
 
-## Setting up in Intellij
+**Balloon** is a chatbot for you to **manage your tasks**, optimised for
+those familiar with a Command Line Interface(CLI). \
+There are 3 types of tasks supported: Todo, Deadline, and Event. \
 
-Prerequisites: JDK 17, update Intellij to the most recent version.
+## Features
+1. [List](#list-all-tasks)
+2. [Add Todo](#add-a-todo-task)
+3. [Add Deadline](#add-a-deadline-task)
+4. [Add Event](#add-an-event-task)
+4. [Delete Task](#delete-a-task)
+5. [Mark Task as Done](#mark-a-task-as-done)
+6. [Mark Task as Undone](#mark-a-task-as-undone)
+7. [Find Task](#find-tasks-by-keyword)
+8. [Undo](#undo-previous-command)
+9. [Exit](#exit)
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 17** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/Duke.java` file, right-click it, and choose `Run Duke.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   Hello from
-    ____        _        
-   |  _ \ _   _| | _____ 
-   | | | | | | | |/ / _ \
-   | |_| | |_| |   <  __/
-   |____/ \__,_|_|\_\___|
-   ```
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+### List all tasks
+Shows a list of all tasks.\
+Format: `list`
+
+### Add a Todo task
+Adds a Todo task to the end of the list of tasks. \
+Format: `todo <description>`
+
+### Add a Deadline task
+Adds a Deadline task to the end of the list of tasks. \
+Format: `deadline <description> /by <date/time>`
+- The date/time fields can be interpreted in 3 ways:
+    1. Date format
+        - Input is of the form "yyyy--MM--dd" and represents a valid Date
+        - When displayed (using `list`), the output will be shown as "MMM dd yyyy"
+    2. Date-Time format
+        - Input is of the form "yyyy--MM--dd HHmm" and represents a valid Date-Time
+        - When displayed (using `list`), the output will be shown as "MMM dd yyyy HH:mm"
+    3. Raw string
+        - If the time/date field cannot be interpreted using either
+          of the above 2 methods, then this is the default
+        - When displayed (using `list), the output will be the same as
+          the raw input string
+
+### Add an Event task
+Adds an Event task to the end of the list of tasks. \
+Format: `event <description> /from <date/time> /to <date/time>`
+- The date/time fields can be interpreted in 3 ways:
+    1. Date format
+        - Input is of the form "yyyy--MM--dd" and represents a valid Date
+        - When displayed (using `list`), the output will be shown as "MMM dd yyyy"
+    2. Date-Time format
+        - Input is of the form "yyyy--MM--dd HHmm" and represents a valid Date-Time
+        - When displayed (using `list`), the output will be shown as "MMM dd yyyy HH:mm"
+    3. Raw string
+        - If the time/date field cannot be interpreted using either
+          of the above 2 methods, then this is the default
+        - When displayed (using `list), the output will be the same as
+          the raw input string
+
+### Delete a task
+Deletes the task specified by the given task number. \
+Format: `delete <task-number>`
+- task-number must be a positive integer smaller than or equal to the number of tasks in the list
+
+Example: `delete 2` removes the second task on the list
+
+### Mark a task as Done
+Marks the task specified by the given task number as done. \
+A task that is marked as done will be indicated with a 'X' when `list` is executed. \
+Format: `mark <task-number>`
+- task-number must be a positive integer smaller than or equal to the number of tasks in the list
+
+### Mark a task as Undone
+Marks the task specified by the given task number as not done. \
+Format: `unmark <task-number>`
+- task-number must be a positive integer smaller than or equal to the number of tasks in the list
+
+### Find tasks by Keyword
+Shows all the task in the list whose _description_ **contains** the given keyword. \
+Note that string-matching is **case-sensitive** here. \
+Format: `find <keyword>`
+
+### Undo previous command
+Undoes the previous command that was _successfully_ executed.
+The undo command can be used **up to 1 time consecutively** only . \
+This command only works if the previous command is one of the following:
+- `todo`
+- `deadline`
+- `event`
+- `mark`
+- `unmark`
+- `delete`
+
+Format: `undo`
+
+Example: `todo sometask` followed by `undo` means that the
+new Todo task added will be removed (thus undoing the todo command)
+
+### Exit
+Terminates and leaves the application. \
+Format:`bye`
