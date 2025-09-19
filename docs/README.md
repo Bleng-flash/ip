@@ -144,7 +144,8 @@ Example: `find book`
 ```
 Here are the matching tasks in your list:
 1.[T][ ] read book
-2.[T][ ] borrow book
+2.[D][ ] return book (by: Jun 06 2025)
+3.[T][ ] borrow book
 ```
 
 ### Undo previous command
